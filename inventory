@@ -1,0 +1,10 @@
+[all:vars]
+ansible_connection=ssh
+ansible_user=admin
+
+[servers]
+happyserver1
+happyserver3
+sadserver9
+justrightserver5
+workingkinda2034
