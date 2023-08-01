@@ -24,7 +24,6 @@ jobs:
 
       - name: Run ansible playbook
         run: |
-          ansible-galaxy collection install -r collections/requirements.yml
           ansible-playbook create-inventory.yml
       
       - name: Print Inventory
