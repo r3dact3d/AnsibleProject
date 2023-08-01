@@ -3,3 +3,4 @@ happyserver3
 sadserver9
 justrightserver5
 workingkinda2034
+enhancedserver1
