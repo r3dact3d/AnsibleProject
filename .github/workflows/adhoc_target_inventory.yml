@@ -32,11 +32,8 @@ jobs:
       - name: Create Pull Requests 
         uses: peter-evans/create-pull-request@v5
         with:
-          author_name: automation
-          author_email: automation@example.com
-          message: "Update inventory"
-          add: 'inventory'
-          default_author: 'github_actions'
-          tag: 'v1.${{ github.run_number }}'
-          push: true
+          commit-message: update target inventory
+          title: Update Targets
+          body: Create new inventory based on these targets
+          branch: development
 
