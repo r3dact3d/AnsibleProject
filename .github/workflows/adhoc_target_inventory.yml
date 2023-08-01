@@ -24,7 +24,7 @@ jobs:
 
       - name: Run ansible playbook
         run: |
-          ansible-playbook create-inventory.yml
+          ansible-playbook playbooks/create-inventory.yml
       
       - name: Print Inventory
         uses: EndBug/add-and-commit@v9
