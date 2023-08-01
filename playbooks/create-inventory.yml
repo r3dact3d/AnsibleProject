@@ -6,6 +6,10 @@
     target_list: targets.txt
     target_inventory: inventory
   tasks:
+    - name: Create list from data file
+      ansible.builtin.set_fact:
+        targets: "{{ lookup('file', 'targets.txt').split('\n') }}"
+
     - name: Write the inventory file
       ansible.builtin.template:
         mode: '0644'
