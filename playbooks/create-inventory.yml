@@ -9,5 +9,5 @@
     - name: Write the inventory file
       ansible.builtin.template:
         mode: '0644'
-        src: inventory.j2
+        src: ../templates/inventory.j2
         dest: "{{ target_inventory }}"
