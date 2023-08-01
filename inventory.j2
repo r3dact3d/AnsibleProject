@@ -3,6 +3,6 @@ ansible_connection=ssh
 ansible_user=admin
 
 [servers]
-{% for host in hostnames %}
+{% for host in targets %}
 {{ host }}
 {% endfor %}

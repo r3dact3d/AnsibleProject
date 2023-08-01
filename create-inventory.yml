@@ -1,0 +1,17 @@
+---
+- name: Create Inventory and Targets
+  hosts: localhost
+  gather_facts: false
+  vars:
+    inventory_template: 'inventory.j2'
+    target_inventory: 'inventory'
+  tasks:
+    - name: Create list from data file
+      ansible.builtin.set_fact:
+        targets: "{{ lookup('file', 'targets.txt').split('\n') }}"
+
+    - name: Write the inventory file
+      ansible.builtin.template:
+        mode: '0644'
+        src: "{{ inventory_template }}"
+        dest: "{{ target_inventory }}"
