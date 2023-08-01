@@ -9,4 +9,4 @@
     - name: Write the inventory file
       ansible.builtin.template:
         src: inventory.j2
-        dest: "{{ inventory_file  }}"
+        dest: "{{ inventory_file }}"
