@@ -9,31 +9,33 @@ on:
 
 jobs:
   Ansible:
-    name: 'Ansible'
+    name: 'Build Inventory'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
     steps:
-      - name: 'Checkout'
+      - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Install Python Dependencies
+      
+      - name: Create tmp working branch
         run: |
-          if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
+          git checkout -b 'build_inventory_${{ github.run_number }}'
 
       - name: Run ansible playbook
         run: |
-          ansible-playbook playbooks/create-inventory.yml
+          ansible-playbook create-inventory.yml
       
-      - name: Print Inventory
-        run: cat inventory
+      - name: Print inventory 
+        run: |
+          cat inventory
 
-      - name: Create Pull Requests 
+      - name: Update remote repo with new targets
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add inventory
           git commit -m "Generated Inventory"
-          git push origin development
+          git push origin 'build_inventory_${{ github.run_number }}'
+          gh pr create --base development --head 'build_inventory_${{ github.run_number }}' --title "Update targets in Development" --body "Automated updated targets in Development"
 

@@ -2,7 +2,7 @@
 name: ansible-lint
 on:
   pull_request:
-    branches: ["development", "stage"]
+    branches: ["development", "main"]
 jobs:
   build:
     name: Ansible Lint
@@ -10,11 +10,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Run ansible-lint
         uses: ansible/ansible-lint-action@main
         with:
-          path: playbooks/create-inventory.yml
+          path: create-inventory.yml
         
