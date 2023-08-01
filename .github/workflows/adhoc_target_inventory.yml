@@ -27,7 +27,10 @@ jobs:
           ansible-playbook playbooks/create-inventory.yml
       
       - name: Print Inventory
-        uses: EndBug/add-and-commit@v9
+        run: cat inventory
+
+      - name: Create Pull Requests 
+        uses: peter-evans/create-pull-request@v5
         with:
           author_name: automation
           author_email: automation@example.com
