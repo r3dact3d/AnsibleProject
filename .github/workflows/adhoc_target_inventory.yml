@@ -37,7 +37,7 @@ jobs:
           git add inventory
           git commit -m "Generated Inventory"
           git push origin 'build_inventory_${{ github.run_number }}'
-          gh pr create --base development --head 'build_inventory_${{ github.run_number }}' --title "Update targets in Development" --body "Automated updated targets in Development"
+          gh pr create --base stage --head 'build_inventory_${{ github.run_number }}' --title "Update targets in Development" --body "Automated updated targets in Development"
         env:
           GH_TOKEN: ${{ github.token }}  
 
