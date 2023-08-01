@@ -3,7 +3,8 @@
   hosts: localhost
   gather_facts: false
   vars:
-    target_inventory: inventory
+    inventory_template: '../templates/inventory.j2'
+    target_inventory: '../inventory'
   tasks:
     - name: Create list from data file
       ansible.builtin.set_fact:
@@ -12,5 +13,5 @@
     - name: Write the inventory file
       ansible.builtin.template:
         mode: '0644'
-        src: templates/inventory.j2
+        src: "{{ inventory_template }}"
         dest: "{{ target_inventory }}"
