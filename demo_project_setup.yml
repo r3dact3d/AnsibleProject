@@ -1,0 +1,20 @@
+- name: Set Up a Project and Job Template
+  hosts: host.name.ip
+  become: true
+
+  tasks:
+    - name: Create a Project
+      ansible.controller.project:
+        name: Job Template Test Project
+        state: present
+        scm_type: git
+        scm_url: https://github.com/ansible/ansible-tower-samples.git
+
+    - name: Create a Job Template
+      ansible.controller.job_template:
+        name: my-job-1
+        project: Job Template Test Project
+        inventory: Demo Inventory
+        playbook: hello_world.yml
+        job_type: run
+        state: present
