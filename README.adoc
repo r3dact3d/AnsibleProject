@@ -20,3 +20,102 @@ Setup dedicated repository for your ansible projects, which includes playbooks, 
 This allows you to separate inventories for different environments, like development, staging, and production.
 
 
+== Install Ansible Tools for development
+
+.Attach Red Hat Ansible Automation Platform SKU
+[source,shell]
+----
+
+$ subscription-manager attach --pool=<sku-pool-id>
+----
+
+.Install automation content navigator on control nodes
+[source,shell]
+----
+
+$ sudo dnf install ansible-navigator ansible-builder
+----
+
+Might need to add flag to enable the *--enablerepo=ansible-automation-platform-2.4-for-rhel-8-x86_64-rpms* repo
+
+.Verify tool is installed
+[source,shell]
+----
+
+$ ansible-navigator --version
+----
+
+.Login to container registry
+[source,shell]
+----
+
+$ podman login registry.redhat.io
+Username: YOUR-REGISTRY-USERNAME
+Password: YOUR-REGISTRY-PASSWORD
+Login Succeeded!
+----
+
+.Download the container image for the execution environment for testing
+[source,shell]
+----
+
+$ podman pull registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest
+----
+
+.Display list of locally available container images
+[source,shell]
+----
+
+$ ansible-navigator images
+  Image                    Tag      Execution environment         Created         Size
+0│ee-supported-rhel8       latest   True                          5 weeks ago     1.32 GB
+----
+
+=== Configuration files
+
+.Manage Ansible settings at project level with ansible.cfg file in project directory
+[source,ini]
+----
+
+[defaults]
+inventory = ./inventory
+remote_user = r3dact3d
+ask_pass = false
+
+[privilege_escalation]
+become = true
+become_method = sudo
+become_user = root
+become_ask_pass = false
+----
+
+.Manage ansible-navigator settings with ansible-navigator.yml file
+[source.yml]
+----
+
+ansible-navigator:
+  execution-environment:
+    image: podman pull registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest
+      policy: missing
+  playbook-artifact:
+    enable: false
+----
+
+.For a single existing managed host 
+[source,shell]
+----
+
+$ ssh-copy-id root@managedNode.example.com
+The authenticity of host 'managedNode.example.com (192.168.122.181)' can't be established.
+ECDSA key fingerprint is 70:9c:03:cd:de:ba:2f:11:98:fa:a0:b3:7c:40:86:4b.
+Are you sure you want to continue connecting (yes/no)? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@managedNode.example.com's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@managedNode.example.com'"
+and check to make sure that only the key(s) you wanted were added.
+----
+
