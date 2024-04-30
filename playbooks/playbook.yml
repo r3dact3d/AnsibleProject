@@ -1,0 +1,14 @@
+---
+- name: Create GitHub Repository
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create a new GitHub repository
+      community.general.github_repository:
+        token: YOUR_GITHUB_TOKEN
+        name: YOUR_REPOSITORY_NAME
+        description: Your repository description
+        private: no
+        has_issues: yes
+        has_wiki: yes
+        state: present
