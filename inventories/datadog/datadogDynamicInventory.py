@@ -5,9 +5,9 @@ import json
 import os
 import sys
 
-# DataDog API credentials from environment variables
-DATADOG_API_KEY = os.getenv('DATADOG_API_KEY', 'your_datadog_api_key')
-DATADOG_APP_KEY = os.getenv('DATADOG_APP_KEY', 'your_datadog_app_key')
+# Read DataDog API credentials from environment variables
+DATADOG_API_KEY = os.getenv('DATADOG_API_KEY')
+DATADOG_APP_KEY = os.getenv('DATADOG_APP_KEY')
 
 # DataDog API endpoint
 DATADOG_API_URL = 'https://api.datadoghq.com/api/v1/hosts'
