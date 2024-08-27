@@ -1,0 +1,43 @@
+---
+all:
+  children:
+    webservers:
+      hosts:
+        webserver1.example.com:
+          ansible_host: 192.168.1.10
+          ansible_user: ansible
+          environment: production
+        webserver2.example.com:
+          ansible_host: 192.168.1.11
+          ansible_user: ansible
+          environment: staging
+    dbservers:
+      hosts:
+        dbserver1.example.com:
+          ansible_host: 192.168.1.20
+          ansible_user: ansible
+          db_role: primary
+        dbserver2.example.com:
+          ansible_host: 192.168.1.21
+          ansible_user: ansible
+          db_role: secondary
+    loadbalancers:
+      hosts:
+        lb1.example.com:
+          ansible_host: 192.168.1.30
+          ansible_user: ansible
+    monitoring:
+      hosts:
+        monitor1.example.com:
+          ansible_host: 192.168.1.40
+          ansible_user: ansible
+          monitoring_role: primary
+        monitor2.example.com:
+          ansible_host: 192.168.1.41
+          ansible_user: ansible
+          monitoring_role: secondary
+
+  vars:
+    ansible_connection: ssh
+    ansible_python_interpreter: /usr/bin/python3
+
