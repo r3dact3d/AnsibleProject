@@ -7,8 +7,8 @@
   tasks:
     - name: print variable with msg
       debug:
-        msg: "{{ new_variable.stdout }}"
+        msg: "I don't know whats going on {{ new_variable.stdout }}"
         
     - name: print variable with var
       debug:
-        var: new_variable.stdout
+        var: new_variable
