@@ -7,7 +7,7 @@
   tasks:
     - name: print variable with msg
       debug:
-        msg: "I don't know whats going on {{ new_variable.stdout }}"
+        msg: "I don't know whats going on {{ new_variable }}"
         
     - name: print variable with var
       debug:
