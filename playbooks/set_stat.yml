@@ -1,0 +1,19 @@
+---
+- name: Create and Export Variable between JT in a WF
+  hosts: localhost
+  connection: local
+  gather_facts: false
+   
+  tasks:
+    - name: Example task to register a variable
+      shell: echo "This is a test"
+      register: my_variable
+
+    - name: Print My
+      ansible.builtin.debug:
+        var: my_variable
+
+    - name: Export incident number as artifact
+      ansible.builtin.set_stats:
+        data:
+          new_variable: "{{ my_variable }}"
