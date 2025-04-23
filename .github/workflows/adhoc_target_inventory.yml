@@ -25,10 +25,6 @@ jobs:
       - name: Run ansible playbook
         run: |
           ansible-playbook playbooks/development/create-dev-inventory.yml
-      
-      - name: Print inventory 
-        run: |
-          cat inventory
 
       - name: Update remote repo with new targets
         run: |
