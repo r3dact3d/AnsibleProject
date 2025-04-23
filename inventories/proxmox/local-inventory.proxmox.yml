@@ -1,8 +1,8 @@
 ---
 plugin: community.general.proxmox
-url: "{{ url }}"
+url: '{{ lookup("env", "url") }}'
 user: root
-password: "{{ password }}"
+password: '{{ lookup("env", "password") }}'
 validate_certs: false
 want_facts: true
 want_proxmox_nodes_ansible_host: false
