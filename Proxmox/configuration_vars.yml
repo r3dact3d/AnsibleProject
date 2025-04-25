@@ -1,0 +1,71 @@
+---
+controller_credential_types:
+- name: Proxmox Virtual Environment 
+  description: Proxmox VE Credential Type
+  inputs:
+    fields:
+      - id: url
+        type: string
+        label: Proxmox Virtual Environment URL
+        help_text: Something like 'https://192.168.1.232:8006'
+      - id: user
+        type: string
+        label: User
+      - id: password
+        type: string
+        label: Password
+        secret: true
+      - id: token
+        type: string
+        label: Token
+        secret: true
+        help_text: >-
+          An OAuth token to use to authenticate with.This should not be set if
+          username/password are being used.
+      - id: verify_ssl
+        type: boolean
+        label: Verify SSL
+    required:
+      - password
+  injectors:
+    env:
+      PROXMOX_URL: !unsafe "{{ url }}"
+      PROXMOX_USER: !unsafe "{{ user }}"
+      PROXMOX_PASSWORD: !unsafe "{{ password }}"
+      PROXMOX_VERIFY_SSL: !unsafe "{{ verify_ssl }}"
+      PROXMOX_OAUTH_TOKEN: !unsafe "{{ token }}"
+
+controller_credentials:
+  - name: Proxmox
+    credential_type: Proxmox Virtual Environment
+    organization: Default
+    description: Credential for Proxmox
+    inputs:
+      url: PROXMOX_URL
+      user: PROXMOX_USER
+      password: PROXMOX_PASSWORD
+      token: PROXMOX_TOKEN
+      verify_ssl: false
+
+controller_projects:
+  - name: Blinker Project
+    organization: Default
+    scm_branch: development
+    scm_clean: 'no'
+    scm_delete_on_update: 'no'
+    scm_type: git
+    scm_update_on_launch: 'no'
+    scm_url: https://github.com/r3dact3d/AnsibleProject.git
+
+controller_inventory_sources:
+  - name: Proxmox VE
+    source: scm
+    source_path: inventories/proxmox/proxmox.yml
+    inventory: Local Inventory
+    execution_environment: Community General EE
+    source_project: Blinker Project
+    credential: 
+    description: created by Ansible controller
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
