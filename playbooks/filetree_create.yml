@@ -7,6 +7,7 @@
     aap_password: "{{ (lookup('env', 'CONTROLLER_PASSWORD')) }}"
     aap_hostname: "{{ (lookup('env', 'CONTROLLER_HOST')) }}"
     aap_validate_certs: "{{ (lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) }}"
+    controller_validate_certs: false
 
   pre_tasks:
     - name: "Setup authentication (block)"
