@@ -42,7 +42,7 @@
         src: "/tmp/filetree_output/"
         dest: "/home/punk/working/"
         delete: yes
-        delegate_to: "192.168.1.173"
+      delegate_to: "192.168.1.173"
 
     - name: Validate and print contents of directory path /tmp/filetree_output/
       ansible.builtin.debug:
