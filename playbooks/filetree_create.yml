@@ -39,8 +39,9 @@
   post_tasks:
     - name: Copy backup file to host2
       synchronize:
-        src: "/tmp/filetree_output/"
-        dest: "rsync://192.168.1.230/tmp/"
+        src: /tmp/filetree_output/
+        dest: rsync://192.168.1.230/tmp/
+        set_remote_user: false
 
     - name: Validate and print contents of directory path /tmp/filetree_output/
       ansible.builtin.debug:
