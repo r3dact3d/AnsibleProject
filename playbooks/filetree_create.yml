@@ -40,7 +40,7 @@
     - name: Copy backup file to host2
       synchronize:
         src: "/tmp/filetree_output/"
-        dest: "rsync://192.168.1.173/tmp/"
+        dest: "rsync://rh-aap.blinker19.com/tmp/"
 
     - name: Validate and print contents of directory path /tmp/filetree_output/
       ansible.builtin.debug:
