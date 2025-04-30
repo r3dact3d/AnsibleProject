@@ -1,7 +1,0 @@
----
-- name: Gather Host Information
-  hosts: localhost
-  gather_facts: false
-
-  roles:
-    - infra.controller_configuration.filetree_create
