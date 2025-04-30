@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-#  connection: local
+  connection: local
   gather_facts: false
   vars:
     aap_username: "{{ (lookup('env', 'CONTROLLER_USERNAME')) }}"
@@ -40,7 +40,7 @@
     - name: Copy backup file to host2
       synchronize:
         src: "/tmp/filetree_output/"
-        dest: "rsync://rh-aap.blinker19.com/tmp/"
+        dest: "rsync://192.168.1.230/tmp/"
 
     - name: Validate and print contents of directory path /tmp/filetree_output/
       ansible.builtin.debug:
