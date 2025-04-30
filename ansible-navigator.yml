@@ -1,6 +1,0 @@
-ansible-navigator:
-  execution-environment:
-    image: podman pull registry.redhat.io/ansible-automation-platform-24/ee-supported-rhel8:latest
-      policy: missing
-  playbook-artifact:
-    enable: false
