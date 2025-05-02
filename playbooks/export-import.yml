@@ -1,0 +1,70 @@
+- name: Export from host1 and Import to host2
+  hosts: localhost
+  gather_facts: false
+  vars:
+    aap_username: "{{ (lookup('env', 'CONTROLLER_USERNAME')) }}"
+    aap_password: "{{ (lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    aap_hostname: "{{ (lookup('env', 'CONTROLLER_HOST')) }}"
+    aap_validate_certs: "{{ (lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) }}"
+    controller_validate_certs: false
+    controller_oauthtoken: "{{ (lookup('env', 'CONTROLLER_OAUTH_TOKEN')) }}"
+
+    host1_controller_username: "{{ (lookup('env', 'CONTROLLER_USERNAME')) }}"
+    host1_controller_password: "{{ (lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    host2_controller_username: "{{ (lookup('env', 'CONTROLLER_USERNAME')) }}"
+    host2_controller_password: "{{ (lookup('env', 'CONTROLLER_PASSWORD')) }}"
+  collections:
+    - ansible.controller
+  tasks:
+    - name: Export all tower assets on host1
+      ansible.controller.export:
+        all: True
+        validate_certs: false
+        controller_host: "{{ aap_hostname }}"
+        controller_username: "{{ host1_controller_username }}"
+        controller_password: "{{ host1_controller_password }}"
+      register: export_output
+      ignore_errors: yes  # Handle potential export failures gracefully
+
+    - name: Get hostname and timestamp
+      set_fact:
+        host1_hostname: "{{ ansible_hostname }}"
+        datetime_stamp: "{{ lookup('pipe', 'date +\"%Y%m%d_%H%M%S\"') }}"
+
+    - name: Set the export file path on host1
+      set_fact:
+        host1_export_path: "/var/lib/awx/projects/backup/{{ host1_hostname }}_{{ datetime_stamp }}.json"
+
+    - name: Ensure backup directory exists on both hosts
+      file:
+        path: /var/lib/awx/projects/backup
+        state: directory
+        mode: '0755'
+      delegate_to: "{{ item }}"
+      with_items:
+        - "{{ host1_ip }}"
+        - "{{ host2_ip }}"
+
+    - name: Write export output to file on host1
+      copy:
+        content: "{{ export_output }}"
+        dest: "{{ host1_export_path }}"
+        mode: '0644'
+        force: no
+
+    - name: Copy backup file to host2
+      synchronize:
+        src: "{{ host1_export_path }}"
+        dest: "/var/lib/awx/projects/backup/"
+        delete: yes
+        delegate_to: "{{ host2_ip }}"
+
+    - name: Import assets on host2
+      delegate_to: "{{ host2_ip }}"
+      ansible.controller.import:
+        src: "{{ host1_export_path | basename }}"
+        validate_certs: false
+        controller_host: "{{ controller2_host }}"
+        controller_username: "{{ host2_controller_username }}"
+        controller_password: "{{ host2_controller_password }}"
+      ignore_errors: yes  # Handle potential import failures gracefully
