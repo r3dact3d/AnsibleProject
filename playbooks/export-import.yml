@@ -42,8 +42,8 @@
         mode: '0755'
       delegate_to: "{{ item }}"
       with_items:
-        - "{{ host1_ip }}"
-        - "{{ host2_ip }}"
+        - "{{ host1_hostname }}"
+        - "{{ host2 }}"
 
     - name: Write export output to file on host1
       copy:
@@ -57,14 +57,14 @@
         src: "{{ host1_export_path }}"
         dest: "/var/lib/awx/projects/backup/"
         delete: yes
-        delegate_to: "{{ host2_ip }}"
+        delegate_to: "{{ host2 }}"
 
     - name: Import assets on host2
-      delegate_to: "{{ host2_ip }}"
+      delegate_to: "{{ host2 }}"
       ansible.controller.import:
         src: "{{ host1_export_path | basename }}"
         validate_certs: false
-        controller_host: "{{ controller2_host }}"
+        controller_host: "{{ host2 }}"
         controller_username: "{{ host2_controller_username }}"
         controller_password: "{{ host2_controller_password }}"
       ignore_errors: yes  # Handle potential import failures gracefully
