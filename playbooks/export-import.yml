@@ -26,14 +26,9 @@
       register: export_output
       ignore_errors: yes  # Handle potential export failures gracefully
 
-    - name: Get hostname and timestamp
-      set_fact:
-        host1_hostname: "{{ ansible_hostname }}"
-        datetime_stamp: "{{ lookup('pipe', 'date +\"%Y%m%d_%H%M%S\"') }}"
-
     - name: Set the export file path on host1
       set_fact:
-        host1_export_path: "/var/lib/awx/projects/backup/{{ host1_hostname }}_{{ datetime_stamp }}.json"
+        host1_export_path: "/var/lib/awx/projects/backup/cac_export.json"
 
     - name: Ensure backup directory exists on both hosts
       file:
@@ -42,7 +37,7 @@
         mode: '0755'
       delegate_to: "{{ item }}"
       with_items:
-        - "{{ host1_hostname }}"
+        - "{{ host1 }}"
         - "{{ host2 }}"
 
     - name: Write export output to file on host1
