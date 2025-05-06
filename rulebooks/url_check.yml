@@ -1,4 +1,7 @@
-- ansible.eda.url_check:
-    urls:
-      - http://192.168.1.180/admin
-    delay: 10
+- name: Check Blinker19 Pi-hole DNS
+  host: all 
+  sources:
+    - ansible.eda.url_check:
+      urls:
+        - http://192.168.1.180/admin
+      delay: 10
