@@ -10,7 +10,8 @@
         delay: 10
         verify_ssl: false
   rules:
-    - name: Print event 
+    - name: Print event
       condition: event.status == "enabled"
-      action:
-        debug:
+  actions:
+    run_job_template:
+      name: 
