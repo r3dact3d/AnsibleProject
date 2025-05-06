@@ -2,6 +2,8 @@
 - name: Check Blinker19 Pi-hole DNS
   hosts: localhost
   gather_facts: true
+  collections:
+    - ansible.eda
   sources:
     - name: url_check
       ansible.eda.url_check:
