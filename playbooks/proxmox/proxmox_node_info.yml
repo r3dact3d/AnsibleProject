@@ -1,0 +1,16 @@
+---
+- name: Restart a container running on Proxmox VE
+  hosts: localhost
+  tasks:
+    - name: List existing nodes
+      community.general.proxmox_node_info:
+        api_host: "{{ IP_ADDRESS }}"
+        api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
+        api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
+        api_token_id: "{{ token_id | default(omit) }}"
+        api_token_secret: "{{ token_secret | default(omit) }}"
+      register: proxmox_nodes
+    - name: Print the proxmox_nodes variable that was registered in the previous task
+      ansible.builtin.debug:
+        var: proxmox_nodes
+
