@@ -7,6 +7,6 @@
       delay: 10
   rules:
     - name: Print event 
-      con
+      condition: event.status == "enabled"
       action:
         debug:
