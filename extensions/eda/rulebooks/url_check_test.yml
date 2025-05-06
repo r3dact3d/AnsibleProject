@@ -20,7 +20,7 @@
           pretty: true
 
     - name: Debug - Print ALL URL Check Events
-      condition: event.url_check IS DEFINED
+      condition: event.url_check
       action:
         print_event:
           msg: "DEBUG: Received an event from url_check source"
