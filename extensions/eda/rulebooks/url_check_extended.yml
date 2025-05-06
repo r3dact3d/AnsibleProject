@@ -15,4 +15,9 @@
     - name: Print event
       condition: event.status == "enabled"
       action:
-        debug:
+        run_job_template:
+          name: Restart a container running on Proxmox VE
+          organization: Blinker19
+          job_args:
+            extra_vars:
+              IP_ADDRESS: 192.168.1.232
