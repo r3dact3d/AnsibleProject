@@ -1,23 +1,22 @@
 ---
 - name: Check Blinker19 Pi-hole DNS
   hosts: localhost
-  gather_facts: true
-  collections:
-    - ansible.eda
   sources:
-    - name: url_check
-      ansible.eda.url_check:
-        urls:
-          - http://192.168.1.180/admin
-        delay: 10
-        verify_ssl: false
+    - ansible.eda.url_check:
+      urls:
+        - http://192.168.1.180/admin
+      delay: 10
+      verify_ssl: false
+
   rules:
     - name: Print event
       condition: event.status == "enabled"
       action:
-        run_job_template:
-          name: Restart a container running on Proxmox VE
-          organization: Blinker19
-          job_args:
-            extra_vars:
-              IP_ADDRESS: 192.168.1.232
+        debug:
+
+#        run_job_template:
+#          name: Restart a container running on Proxmox VE
+#          organization: Blinker19
+#          job_args:
+#            extra_vars:
+#              IP_ADDRESS: 192.168.1.232
