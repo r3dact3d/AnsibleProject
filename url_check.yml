@@ -1,5 +1,5 @@
 - name: Check Blinker19 Pi-hole DNS
-  host: all 
+  hosts: all 
   sources:
     - ansible.eda.url_check:
       urls:
@@ -7,5 +7,6 @@
       delay: 10
   rules:
     - name: Print event 
+      con
       action:
         debug:
