@@ -12,7 +12,8 @@
     - name: Print event
       condition: event.status == "enabled"
       action:
-        debug:
+        print_event:
+          pretty: true
 
 #        run_job_template:
 #          name: Restart a container running on Proxmox VE

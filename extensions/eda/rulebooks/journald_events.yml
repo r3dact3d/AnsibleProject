@@ -2,9 +2,8 @@
 - name: Journald events
   hosts: all
   sources:
-    - name: Match all messages
-      ansible.eda.journald:
-        match: "ALL"
+    - ansible.eda.journald:
+      match: "ALL"
   rules:
     - name: Print sudo journald event message
       condition: event.journald._comm == 'sudo'
