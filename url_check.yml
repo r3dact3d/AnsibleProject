@@ -1,12 +1,15 @@
 - name: Check Blinker19 Pi-hole DNS
   hosts: all 
+  gather_facts: true
   sources:
-    - ansible.eda.url_check:
-      urls:
-        - http://192.168.1.180/admin
-      delay: 10
+    - url_check
+      ansible.eda.url_check:
+        urls:
+          - http://192.168.1.180/admin
+        delay: 10
   rules:
     - name: Print event 
       condition: event.status == "enabled"
       action:
-        debug:
+        print_event:
+          prety: true
