@@ -1,6 +1,6 @@
 ---
 - name: Check Blinker19 Pi-hole DNS
-  hosts: all
+  hosts: localhost
   gather_facts: true
   sources:
     - name: url_check
@@ -8,6 +8,7 @@
         urls:
           - http://192.168.1.180/admin
         delay: 10
+        verify_ssl: false
   rules:
     - name: Print event 
       condition: event.status == "enabled"
