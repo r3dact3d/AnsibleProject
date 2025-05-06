@@ -13,5 +13,4 @@
     - name: Print event
       condition: event.status == "enabled"
   actions:
-    run_job_template:
-      name: 
+    debug:
