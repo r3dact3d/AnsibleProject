@@ -4,7 +4,7 @@
   sources:
     - ansible.eda.url_check:
         name: blinker19_status # Giving a name to the source can be helpful for clarity
-        delay: 30 # How often to check in seconds
+        delay: 60 # How often to check in seconds
         verify_ssl: false
         urls:
           - https://0ri0n.blinker19.com
@@ -19,9 +19,9 @@
           msg: "SUCCESS: URL is UP!"
           pretty: true
 
-    - name: Debug - Print ALL URL Check Events
-      condition: event.url_check
-      action:
-        print_event:
-          msg: "DEBUG: Received an event from url_check source"
-          pretty: true
+#        run_job_template:
+#          name: Restart a container running on Proxmox VE
+#          organization: Blinker19
+#          job_args:
+#            extra_vars:
+#              IP_ADDRESS: 192.168.1.232
