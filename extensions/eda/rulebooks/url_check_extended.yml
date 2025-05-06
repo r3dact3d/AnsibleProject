@@ -1,5 +1,5 @@
 ---
-- name: Check Blinker19 Pi-hole DNS
+- name: Check Blinker19 LAN Services
   hosts: localhost
   sources:
     - ansible.eda.url_check:
