@@ -1,3 +1,4 @@
+---
 - name: Check Blinker19 Pi-hole DNS
   hosts: all 
   gather_facts: true
