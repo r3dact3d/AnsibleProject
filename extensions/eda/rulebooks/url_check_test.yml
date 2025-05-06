@@ -1,0 +1,27 @@
+---
+- name: Check Blinker19 Services and Debug URL Events
+  hosts: localhost
+  sources:
+    - ansible.eda.url_check:
+        name: blinker19_status # Giving a name to the source can be helpful for clarity
+        delay: 30 # How often to check in seconds
+        verify_ssl: false
+        urls:
+          - https://0ri0n.blinker19.com
+          - http://192.168.1.87:8123/lovelace/0
+          - http://192.168.1.180/admin
+
+  rules:
+    - name: URL is UP - Original Rule
+      condition: event.url_check.status == "up"
+      action:
+        print_event:
+          msg: "SUCCESS: URL is UP!"
+          pretty: true
+
+    - name: Debug - Print ALL URL Check Events
+      condition: event.url_check IS DEFINED
+      action:
+        print_event:
+          msg: "DEBUG: Received an event from url_check source"
+          pretty: true
