@@ -1,0 +1,12 @@
+---
+- name: Restart a container running on Proxmox VE
+  hosts: all
+  connection: local
+  tasks:
+    - name: Restart a container
+      community.general.proxmox:
+        vmid: 103
+        api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
+        api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') }}"
+        api_host: geekom
+        state: restarted
