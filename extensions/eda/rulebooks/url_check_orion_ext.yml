@@ -10,7 +10,7 @@
 
   rules:
     - name: Print event
-      condition: event
+      condition: event.url_check.status
       action:
         print_event:
           pretty: true
