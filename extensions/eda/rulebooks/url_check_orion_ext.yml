@@ -4,12 +4,9 @@
   sources:
     - ansible.eda.url_check:
       delay: 30
-      verify_ssl: false
+      verify_ssl: true
       urls:
-        - http://192.168.1.87:8123/lovelace/0
-        - http://192.168.1.180/admin
         - https://0ri0n.blinker19.com
-
 
   rules:
     - name: Print event
