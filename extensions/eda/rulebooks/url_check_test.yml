@@ -18,7 +18,12 @@
         print_event:
           msg: "SUCCESS: URL is UP!"
           pretty: true
-
+    - name: URL is DOWN - Original Rule
+      condition: event.url_check.status == "down"
+      action:
+        print_event:
+          msg: "FAILURE: URL is DOWN!"
+          pretty: true
 #        run_job_template:
 #          name: Restart a container running on Proxmox VE
 #          organization: Blinker19
