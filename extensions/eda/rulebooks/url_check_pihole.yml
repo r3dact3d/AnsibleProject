@@ -10,9 +10,10 @@
 
   rules:
     - name: Print event
-      condition: event.status == "enabled"
+      condition: event.url_check.status
       action:
-        debug:
+        print_event:
+          pretty: true
 
 #        run_job_template:
 #          name: Restart a container running on Proxmox VE

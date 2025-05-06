@@ -10,7 +10,7 @@
 
   rules:
     - name: Print event
-      condition: event.status == "enabled"
+      condition: event.status
       action:
         print_event:
           pretty: true
