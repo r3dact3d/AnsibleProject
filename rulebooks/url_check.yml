@@ -12,5 +12,5 @@
   rules:
     - name: Print event
       condition: event.status == "enabled"
-  actions:
-    debug:
+      action:
+        debug:
