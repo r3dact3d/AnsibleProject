@@ -1,5 +1,5 @@
 ---
-- name: Check Blinker19 LAN Services
+- name: Check Blinker19 LLM Services
   hosts: localhost
   sources:
     - ansible.eda.url_check:
