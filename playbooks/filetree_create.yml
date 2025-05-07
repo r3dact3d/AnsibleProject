@@ -55,6 +55,19 @@
       ansible.builtin.debug:
         var: filetree_output_fact
 
+    - name: Slurp all YAML files
+      ansible.builtin.slurp:
+        src: "{{ item }}" # 'item' will be each file path from the loop
+      loop: "{{ filetree_output_fact }}"
+      register: slurped_files_results
+      loop_control:
+        label: "{{ item }}" 
+
+    - name: Print slurped_files_results var
+      ansible.builtin.debug:
+        var: slurped_files_results
+        verbosity: 2
+
     - name: Export filetree output as artifact
       ansible.builtin.set_stats:
         data:
