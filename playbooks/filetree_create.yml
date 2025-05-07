@@ -38,7 +38,8 @@
     - infra.aap_configuration_extended.filetree_create
 
   post_tasks:
-    - name: Copy backup file to host2
+    - name: Copy file
+      delegate_to: "{{ aap_hostname }}"
       synchronize:
         src: "/tmp/filetree_output"
         dest: "/tmp/backup"
