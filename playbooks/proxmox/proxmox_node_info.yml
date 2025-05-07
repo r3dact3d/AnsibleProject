@@ -4,13 +4,13 @@
   tasks:
     - name: List existing nodes
       community.general.proxmox_node_info:
-        api_host: "{{ lookup('env', 'PROXMOX_IP' ) }}"
+        api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
         api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
         api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
         api_token_id: "{{ token_id | default(omit) }}"
         api_token_secret: "{{ token_secret | default(omit) }}"
       register: proxmox_nodes
-      
+
     - name: Print proxmox_nodes stdout
       ansible.builtin.debug:
         var: proxmox_nodes
