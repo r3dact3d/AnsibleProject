@@ -38,17 +38,6 @@
 
   post_tasks:
 
-    - name: Include all .yaml files in dir
-      ansible.builtin.include_vars:
-        dir: /tmp/filetree_output
-        extensions:
-          - yaml
-      register: files_data
-
-    - name: Print files_data var
-      ansible.builtin.debug:
-        var: files_data
-
     - name: Get matching files
       ansible.builtin.find:
         path: "/tmp/filetree_output"
