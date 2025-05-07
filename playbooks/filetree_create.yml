@@ -38,9 +38,10 @@
 
   post_tasks:
     - name: Copy file
+      delegate_to: "{{ aap_hostname }}"
       synchronize:
         src: "/tmp/filetree_output"
-        dest: "rsync://{{ aap_hostname }}/tmp/backup" 
+        dest:  "/tmp/backup" 
         delete: yes
 
     - name: Get matching files
