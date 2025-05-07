@@ -71,26 +71,39 @@
       loop_control:
         label: "{{ item.item }}"
 
-    - name: Decode, parse, and aggregate slurped file contents
+    - name: Initialize workflow artifact dictionary
       ansible.builtin.set_fact:
-        # This creates/appends to a list called 'all_parsed_yaml_data'
-        # Each element in the list will be the parsed YAML content of a file
-        all_parsed_yaml_data: "{{ slurped_files_results | default([]) + [parsed_item_content] }}"
-      vars:
-        # 'item.content' is the base64 encoded content from slurp
-        # 'b64decode' filter decodes it to a string
-        # 'from_yaml' filter parses the YAML string into structured data
-        decoded_item_content: "{{ item.content | b64decode }}"
-        parsed_item_content: "{{ decoded_item_content }}"
-      loop: "{{ slurped_files_results.results }}" # Loop over the list of results from the 'slurp' task
-      when: item.content is defined and item.content != "" # Ensure content exists and is not empty
-      loop_control:
-        label: "{{ item.item }}" # 'item.item' refers to the original file path
+        my_workflow_artifact: {}
 
-    - name: Display all aggregated YAML data
+    # Loop through the slurped files and add their content to the artifact dictionary
+    - name: Populate artifact with decoded content from each file
+      ansible.builtin.set_fact:
+        # Combine the existing dictionary with a new entry.
+        # The key is the basename of the file (e.g., 'controller_inventories').
+        # The value is the raw decoded content.
+        my_workflow_artifact: "{{ my_workflow_artifact | combine({ item.item | basename | regex_replace('\\.yaml$', '') : decoded_content }) }}"
+      loop: "{{ slurped_files_results.results }}"
+      when: item.content is defined and item.content != ""
+      vars:
+        # This is the raw string content after Base64 decoding
+        decoded_content: "{{ item.content | b64decode }}"
+      loop_control:
+        label: "{{ item.item }}"
+
+    - name: Display the created artifact (for debugging)
       ansible.builtin.debug:
-        var: all_parsed_yaml_data
-      when: all_parsed_yaml_data is defined # Only run if the variable has been populated
+        var: my_workflow_artifact
+      when: my_workflow_artifact is defined
+
+    # To explicitly set this as an artifact for AAP/AWX workflows using set_stats:
+    - name: Set data as workflow artifact using set_stats
+      ansible.builtin.set_stats:
+        data:
+          # This will make the entire 'my_workflow_artifact' dictionary available
+          # under a key, for example, 'processed_file_data'.
+          # Or you can pass my_workflow_artifact directly if your consuming job expects that structure.
+          processed_file_data: "{{ my_workflow_artifact }}"
+      when: my_workflow_artifact is defined and my_workflow_artifact | length > 0
 
     - name: Display parsed content of each file individually
       ansible.builtin.set_stats:
@@ -99,15 +112,6 @@
       when: item.content is defined and item.content != ""
       loop_control:
         label: "{{ item.item }}"
-
-    - name: Export filetree output as artifact
-      ansible.builtin.set_stats:
-        data:
-          filetree_output_stat: "{{ matched_files.files | map(attribute='path') | list }}"
-    
-    - name: Print filetree_output_stat var 
-      ansible.builtin.debug:
-        var: filetree_output_stat
 
     - name: "Delete the Authentication Token used"
       ansible.builtin.uri:
