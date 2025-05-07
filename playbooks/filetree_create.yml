@@ -9,7 +9,7 @@
     aap_validate_certs: "{{ (lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) }}"
     controller_validate_certs: false
     controller_oauthtoken: "{{ (lookup('env', 'CONTROLLER_OAUTH_TOKEN')) }}"
-    flatten_output: yes
+    flatten_output: True
 
   pre_tasks:
     - name: "Setup authentication (block)"
@@ -40,17 +40,14 @@
   post_tasks:
     - name: Get matching files
       ansible.builtin.find:
-        path: "{{ '/tmp/filetree_output/*.yml' | fileglob }}"
+        path: "/tmp/filetree_output"
+        recurse: yes
+        file_type: file
       register: matched_files
-
-    - name: Get matching files
-      ansible.builtin.find:
-        path: "{{ '/tmp/filetree_output/*.yaml' | fileglob }}"
-      register: matched_files_yaml
 
     - name: Set fact from matched files
       ansible.builtin.set_fact:
-        filetree_output_fact: "{{ matched_files.files }}"
+        filetree_output_fact: "{{ matched_files.files | map(attribute='path') }}"
 
     - name: Print filetree_output_fact var 
       ansible.builtin.debug:
@@ -60,7 +57,7 @@
     - name: Export filetree output as artifact
       ansible.builtin.set_stats:
         data:
-          filetree_output_stat: "{{ matched_files.files }}"
+          filetree_output_stat: "{{ matched_files.files | map(attribute='path') }}"
     
     - name: Print filetree_output_stat var 
       ansible.builtin.debug:
