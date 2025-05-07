@@ -1,5 +1,5 @@
 ---
-- name: Restart a container running on Proxmox VE
+- name: Copy proxmox artifact playbook
   hosts: shadowbox.blinker19.com
   tasks:
     - name: Print the stat artifact
