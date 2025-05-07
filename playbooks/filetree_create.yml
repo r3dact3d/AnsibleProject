@@ -107,7 +107,8 @@
 
     - name: Display parsed content of each file individually
       ansible.builtin.set_stats:
-        data: "{{ item.content | b64decode }}"
+        data: 
+          filetree_output_stat: "{{ item.content | b64decode }}"
       loop: "{{ slurped_files_results.results }}"
       when: item.content is defined and item.content != ""
       loop_control:

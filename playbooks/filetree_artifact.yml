@@ -4,9 +4,12 @@
   tasks:
     - name: Print the artifact
       ansible.builtin.debug:
-        var: filetree_output_fact
+        var: filetree_output_stat
+    
+    - name: Print processed_file_data artifact variable 
+    
 
     - name: Copy artifact to locally to shadowbox
       ansible.builtin.copy:
-        content: "{{ filetree_output_fact }}"
-        dest: /tmp/filetree_output_fact.yml
+        content: "{{ filetree_output_stat }}"
+        dest: /tmp/filetree_output_stat.yml
