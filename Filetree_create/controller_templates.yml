@@ -5,7 +5,7 @@ controller_templates:
     organization: "Default"
     project: "Blinker Project"
     inventory: ""
-    playbook: "playbooks/import-export/filetree_create.yml"
+    playbook: "playbooks/filetree_create/filetree_create.yml"
     scm_branch: ""
     forks: 0
     limit: ""
@@ -51,7 +51,7 @@ controller_templates:
     organization: "Default"
     project: "Blinker Project"
     inventory: ""
-    playbook: "playbooks/import-export/filetree_artifact.yml"
+    playbook: "playbooks/filetree_create/filetree_artifact.yml"
     scm_branch: ""
     forks: 0
     limit: "platform"
