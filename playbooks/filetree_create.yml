@@ -39,9 +39,14 @@
 
   post_tasks:
     - name: Get matching files
-      ansible.builtin.glob:
-        path: "/tmp/filetree_output/*.yml"
+      ansible.builtin.find:
+        path: "{{ '/tmp/filetree_output/*.yml' | fileglob }}"
       register: matched_files
+
+    - name: Get matching files
+      ansible.builtin.find:
+        path: "{{ '/tmp/filetree_output/*.yaml' | fileglob }}"
+      register: matched_files_yaml
 
     - name: Set fact from matched files
       ansible.builtin.set_fact:
