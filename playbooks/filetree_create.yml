@@ -63,6 +63,14 @@
       loop_control:
         label: "{{ item }}" 
 
+    - name: DEBUG - Show decoded content of each file BEFORE parsing
+      ansible.builtin.debug:
+        msg: "File: {{ item.item }}\n--- Decoded YAML Content ---\n{{ item.content | b64decode }}\n--- END Decoded YAML Content ---"
+      loop: "{{ slurped_files_results.results }}"
+      when: item.content is defined and item.content != ""
+      loop_control:
+        label: "{{ item.item }}"
+
     - name: Decode, parse, and aggregate slurped file contents
       ansible.builtin.set_fact:
         # This creates/appends to a list called 'all_parsed_yaml_data'
