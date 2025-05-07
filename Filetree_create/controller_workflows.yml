@@ -1,0 +1,31 @@
+---
+controller_workflows:
+  - name: "Filetree Workflow (WT)"
+    description: "Workflow to export resources from AAP for processing"
+    organization: "Default"
+    simplified_workflow_nodes:
+      - identifier: "edef2b07-9bb8-4192-90df-a17e0e7d1994"
+        workflow_job_template: "Filetree Workflow (WT)"
+        unified_job_template: "Filetree Create"
+        limit: ""
+        organization: "Default"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "f390e88c-e4e3-4174-84a2-88199e43bd05"
+      - identifier: "f390e88c-e4e3-4174-84a2-88199e43bd05"
+        workflow_job_template: "Filetree Workflow (WT)"
+        unified_job_template: "Filetree Artifact"
+        limit: ""
+        organization: "Default"
+        all_parents_must_converge: "False"
+    ask_variables_on_launch: "False"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    limit: ""
+    ask_limit_on_launch: false
+    ask_inventory_on_launch: false
+    webhook_service: ""
+    extra_vars: ""
+    labels:
+      - "testing"
+    survey_enabled: false
