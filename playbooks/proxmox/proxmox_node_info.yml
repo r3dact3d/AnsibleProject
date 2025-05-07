@@ -1,5 +1,5 @@
 ---
-- name: Restart a container running on Proxmox VE
+- name: Playbook to get info on Proxmox nodes
   hosts: localhost
   tasks:
     - name: List existing nodes
