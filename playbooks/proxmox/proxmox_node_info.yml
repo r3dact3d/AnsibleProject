@@ -18,4 +18,4 @@
     - name: Export proxmox_nodes variable as artifact
       ansible.builtin.set_stats:
         data:
-          proxmox_nodes_artifact: "{{ proxmox_nodes.stdout }}"
+          proxmox_nodes_artifact: "{{ proxmox_nodes }}"
