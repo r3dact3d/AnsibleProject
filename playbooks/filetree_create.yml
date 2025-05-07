@@ -37,12 +37,17 @@
     - infra.aap_configuration_extended.filetree_create
 
   post_tasks:
-    - name: Copy file
-      delegate_to: "{{ aap_hostname }}"
-      synchronize:
-        src: "/tmp/filetree_output"
-        dest:  "/tmp/backup" 
-        delete: yes
+
+    - name: Include all .yaml files in dir
+      ansible.builtin.include_vars:
+        dir: /tmp/filetree_output
+        extensions:
+          - yaml
+      register: files_data
+
+    - name: Print files_data var
+      ansible.builtin.debug:
+        var: files_data
 
     - name: Get matching files
       ansible.builtin.find:
