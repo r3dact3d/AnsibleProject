@@ -63,10 +63,26 @@
       loop_control:
         label: "{{ item }}" 
 
-    - name: Print slurped_files_results var
+    - name: Decode, parse, and aggregate slurped file contents
+      ansible.builtin.set_fact:
+        # This creates/appends to a list called 'all_parsed_yaml_data'
+        # Each element in the list will be the parsed YAML content of a file
+        all_parsed_yaml_data: "{{ slurped_files_results | default([]) + [parsed_item_content] }}"
+      vars:
+        # 'item.content' is the base64 encoded content from slurp
+        # 'b64decode' filter decodes it to a string
+        # 'from_yaml' filter parses the YAML string into structured data
+        decoded_item_content: "{{ item.content | b64decode }}"
+        parsed_item_content: "{{ decoded_item_content | from_yaml }}"
+      loop: "{{ slurped_files_results.results }}" # Loop over the list of results from the 'slurp' task
+      when: item.content is defined and item.content != "" # Ensure content exists and is not empty
+      loop_control:
+        label: "{{ item.item }}" # 'item.item' refers to the original file path
+
+    - name: Display all aggregated YAML data
       ansible.builtin.debug:
-        var: slurped_files_results
-        verbosity: 2
+        var: all_parsed_yaml_data
+      when: all_parsed_yaml_data is defined # Only run if the variable has been populated
 
     - name: Export filetree output as artifact
       ansible.builtin.set_stats:

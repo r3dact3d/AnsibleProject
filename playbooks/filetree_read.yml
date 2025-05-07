@@ -2,6 +2,8 @@
 - name: Playbook to authenticate to one platform and export the resources
   hosts: localhost
   vars:
+    controller_configuration_projects_async_retries: 60
+    controller_configuration_projects_async_delay: 2
     aap_username: "{{ (lookup('env', 'CONTROLLER_USERNAME')) }}"
     aap_password: "{{ (lookup('env', 'CONTROLLER_PASSWORD')) }}"
     aap_hostname: "{{ (lookup('env', 'CONTROLLER_HOST')) }}"
@@ -34,7 +36,7 @@
         - always
 
   roles:
-    - infra.aap_configuration_extended.filetree_create
+    - infra.aap_configuration_extended.filetree_read
 
   post_tasks:
 
