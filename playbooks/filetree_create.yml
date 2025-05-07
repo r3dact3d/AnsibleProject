@@ -1,7 +1,7 @@
 ---
-- hosts: localhost
+- name: Playbook to authenticate to one platform and export the resources
+  hosts: localhost
   connection: local
-  gather_facts: false
   vars:
     aap_username: "{{ (lookup('env', 'CONTROLLER_USERNAME')) }}"
     aap_password: "{{ (lookup('env', 'CONTROLLER_PASSWORD')) }}"
@@ -9,6 +9,7 @@
     aap_validate_certs: "{{ (lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) }}"
     controller_validate_certs: false
     controller_oauthtoken: "{{ (lookup('env', 'CONTROLLER_OAUTH_TOKEN')) }}"
+    flatten_output: yes
 
   pre_tasks:
     - name: "Setup authentication (block)"
@@ -37,6 +38,30 @@
     - infra.aap_configuration_extended.filetree_create
 
   post_tasks:
+    - name: Get matching files
+      ansible.builtin.glob:
+        path: "/tmp/filetree_output/*.yml"
+      register: matched_files
+
+    - name: Set fact from matched files
+      ansible.builtin.set_fact:
+        filetree_output_fact: "{{ matched_files.files }}"
+
+    - name: Print filetree_output_fact var 
+      ansible.builtin.debug:
+        var: filetree_output_fact
+        verbosity: 2
+
+    - name: Export filetree output as artifact
+      ansible.builtin.set_stats:
+        data:
+          filetree_output_stat: "{{ matched_files.files }}"
+    
+    - name: Print filetree_output_stat var 
+      ansible.builtin.debug:
+        var: filetree_output_stat
+        verbosity: 2
+
     - name: "Delete the Authentication Token used"
       ansible.builtin.uri:
         url: "https://{{ aap_hostname }}{{ aap_oauthtoken_url }}"
@@ -47,4 +72,5 @@
         validate_certs: "{{ aap_validate_certs }}"
         status_code: 204
       when: aap_oauthtoken_url is defined
+
 ...
