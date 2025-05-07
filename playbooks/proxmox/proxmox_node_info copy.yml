@@ -1,0 +1,13 @@
+---
+- name: Restart a container running on Proxmox VE
+  hosts: shadowbox.blinker19.com
+  tasks:
+    - name: Print the stat artifact
+      ansible.builtin.debug:
+        var: proxmox_nodes_artifact
+
+    - name: Copy artifact to locally to shadowbox
+      ansible.builtin.copy:
+        content: "{{ proxmox_nodes_artifact }}"
+        dest: /tmp/proxmox_nodes.yml
+

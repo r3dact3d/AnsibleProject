@@ -10,7 +10,12 @@
         api_token_id: "{{ token_id | default(omit) }}"
         api_token_secret: "{{ token_secret | default(omit) }}"
       register: proxmox_nodes
-    - name: Print the proxmox_nodes variable that was registered in the previous task
+      
+    - name: Print proxmox_nodes stdout
       ansible.builtin.debug:
         var: proxmox_nodes
 
+    - name: Export proxmox_nodes variable as artifact
+      ansible.builtin.set_stats:
+        data:
+          proxmox_nodes_artifact: "{{ proxmox_nodes.stdout }}"
