@@ -1,7 +1,6 @@
 ---
 - name: Playbook to authenticate to one platform and export the resources
   hosts: localhost
-  connection: local
   vars:
     aap_username: "{{ (lookup('env', 'CONTROLLER_USERNAME')) }}"
     aap_password: "{{ (lookup('env', 'CONTROLLER_PASSWORD')) }}"
