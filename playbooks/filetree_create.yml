@@ -62,7 +62,7 @@
         var: filetree_output_fact
 
     - name: Export filetree output as artifact
-      ansible.builtin.set_stat:
+      ansible.builtin.set_stats:
         data:
           filetree_output_stat: "{{ matched_files.files | map(attribute='path') }}"
     
