@@ -1,0 +1,22 @@
+---
+- name: Playbook to List all existing virtual machines on node
+  hosts: localhost
+  tasks:
+    - name: Print the stat artifact
+      ansible.builtin.debug:
+        var: proxmox_nodes_artifact
+
+    - name: List all existing virtual machines on node
+      community.general.proxmox_vm_info:
+        api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
+        api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
+        api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
+        api_token_id: "{{ token_id | default(omit) }}"
+        api_token_secret: "{{ token_secret | default(omit) }}"
+        node: "{{ proxmox_nodes_artifact.proxmox_nodes.node }}"
+      register: proxmox_vms
+
+    - name: Print the proxmox_vms variable
+      ansible.builtin.debug:
+        var: proxmox_vms
+
