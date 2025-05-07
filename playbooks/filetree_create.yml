@@ -41,7 +41,7 @@
     - name: Copy backup file to host2
       synchronize:
         src: "/tmp/filetree_output"
-        dest: "/var/lib/awx/projects/backup/"
+        dest: "/tmp/backup"
         delete: yes
 
     - name: Get matching files
