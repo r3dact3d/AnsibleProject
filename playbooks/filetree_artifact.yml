@@ -10,7 +10,7 @@
       ansible.builtin.debug:
         var: processed_file_data
 
-    - name: Copy artifact to locally to shadowbox
+    - name: Copy artifact to locally to platform
       ansible.builtin.copy:
         content: "{{ filetree_output_stat }}"
         dest: /tmp/filetree_output_stat.yml
