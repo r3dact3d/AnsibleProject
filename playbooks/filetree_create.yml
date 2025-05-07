@@ -38,36 +38,37 @@
     - infra.aap_configuration_extended.filetree_create
 
   post_tasks:
+    - name: Copy backup file to host2
+      synchronize:
+        src: "/tmp/filetree_output"
+        dest: "/var/lib/awx/projects/backup/"
+        delete: yes
+
     - name: Get matching files
       ansible.builtin.find:
         path: "/tmp/filetree_output"
-        recurse: yes
-        file_type: file
       register: matched_files
 
     - name: Print matched_files variable
       ansible.builtin.debug:
         var: matched_files
-        verbosity: 2
 
     - name: Set fact from matched files
       ansible.builtin.set_fact:
-        filetree_output_fact: "{{ matched_files.files | map(attribute='path') }}"
+        filetree_output_fact: "{{ matched_files.files }}"
 
     - name: Print filetree_output_fact var 
       ansible.builtin.debug:
         var: filetree_output_fact
-        verbosity: 2
 
     - name: Export filetree output as artifact
       ansible.builtin.set_stats:
         data:
-          filetree_output_stat: "{{ matched_files.files | map(attribute='path') }}"
+          filetree_output_stat: "{{ matched_files.files }}"
     
     - name: Print filetree_output_stat var 
       ansible.builtin.debug:
         var: filetree_output_stat
-        verbosity: 2
 
     - name: "Delete the Authentication Token used"
       ansible.builtin.uri:
