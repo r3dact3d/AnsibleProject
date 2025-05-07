@@ -1,0 +1,12 @@
+---
+- name: Copy filetree artifact playbook
+  hosts: all
+  tasks:
+    - name: Print the artifact
+      ansible.builtin.debug:
+        var: filetree_output_fact
+
+    - name: Copy artifact to locally to shadowbox
+      ansible.builtin.copy:
+        content: "{{ filetree_output_fact }}"
+        dest: /tmp/filetree_output_fact.yml
