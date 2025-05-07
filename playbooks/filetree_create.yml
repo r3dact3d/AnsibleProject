@@ -45,6 +45,11 @@
         file_type: file
       register: matched_files
 
+    - name: Print matched_files variable
+      ansible.builtin.debug:
+        var: matched_files
+        verbosity: 2
+
     - name: Set fact from matched files
       ansible.builtin.set_fact:
         filetree_output_fact: "{{ matched_files.files | map(attribute='path') }}"
