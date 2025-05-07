@@ -1,6 +1,6 @@
 ---
 - name: Copy proxmox artifact playbook
-  hosts: shadowbox.blinker19.com
+  hosts: all
   tasks:
     - name: Print the stat artifact
       ansible.builtin.debug:
@@ -10,4 +10,3 @@
       ansible.builtin.copy:
         content: "{{ proxmox_nodes_artifact }}"
         dest: /tmp/proxmox_nodes.yml
-
