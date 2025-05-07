@@ -84,6 +84,14 @@
         var: all_parsed_yaml_data
       when: all_parsed_yaml_data is defined # Only run if the variable has been populated
 
+    - name: Display parsed content of each file individually
+      ansible.builtin.set_stats:
+        data: "{{ item.content | b64decode | from_yaml }}"
+      loop: "{{ slurped_files_results.results }}"
+      when: item.content is defined and item.content != ""
+      loop_control:
+        label: "{{ item.item }}"
+
     - name: Export filetree output as artifact
       ansible.builtin.set_stats:
         data:
