@@ -6,8 +6,9 @@
       ansible.builtin.debug:
         var: filetree_output_stat
     
-    - name: Print processed_file_data artifact variable 
-    
+    - name: Print processed_file_data artifact variable
+      ansible.builtin.debug:
+        var: processed_file_data
 
     - name: Copy artifact to locally to shadowbox
       ansible.builtin.copy:
