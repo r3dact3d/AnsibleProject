@@ -1,8 +1,8 @@
 ---
 controller_templates:
   - name: "Filetree Create"
-    description: !unsafe ''
-    organization: "Launch"
+    description: "Job to create resource artifacts for config as code"
+    organization: "Default"
     project: "Blinker Project"
     inventory: "Local Inventory"
     playbook: "playbooks/import-export/filetree_create.yml"
@@ -49,8 +49,8 @@ controller_templates:
     prevent_instance_group_fallback: false
 
   - name: "Filetree Artifact"
-    description: !unsafe ''
-    organization: "Launch"
+    description: "Job to backup Artifact data"
+    organization: "Default"
     project: "Blinker Project"
     inventory: "Local Inventory"
     playbook: "playbooks/import-export/filetree_artifact.yml"
