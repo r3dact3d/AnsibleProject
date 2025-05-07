@@ -1,10 +1,10 @@
 ---
 - name: Restart a container running on Proxmox VE
-  hosts: all
+  hosts: localhost
   tasks:
     - name: List existing nodes
       community.general.proxmox_node_info:
-        api_host: "{{ ansible_host }}"
+        api_host: "{{ lookup('env', 'PROXMOX_IP' ) }}"
         api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
         api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
         api_token_id: "{{ token_id | default(omit) }}"

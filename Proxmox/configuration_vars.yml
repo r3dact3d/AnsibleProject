@@ -4,10 +4,10 @@ controller_credential_types:
   description: Proxmox VE Credential Type
   inputs:
     fields:
-      - id: url
+      - id: ip
         type: string
-        label: Proxmox Virtual Environment URL
-        help_text: Something like 'https://192.168.1.232:8006'
+        label: Proxmox Virtual Environment IP Address
+        help_text: Something like 192.168.1.232
       - id: user
         type: string
         label: User
@@ -26,9 +26,11 @@ controller_credential_types:
         type: boolean
         label: Verify SSL
     required:
-      - password
+      - ip
+      - user
   injectors:
     env:
+      PROXMOX_IP: !unsafe "https://{{ ip }}:8006"
       PROXMOX_URL: !unsafe "{{ url }}"
       PROXMOX_USER: !unsafe "{{ user }}"
       PROXMOX_PASSWORD: !unsafe "{{ password }}"
