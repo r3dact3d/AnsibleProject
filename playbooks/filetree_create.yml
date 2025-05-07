@@ -73,7 +73,7 @@
         # 'b64decode' filter decodes it to a string
         # 'from_yaml' filter parses the YAML string into structured data
         decoded_item_content: "{{ item.content | b64decode }}"
-        parsed_item_content: "{{ decoded_item_content | from_yaml }}"
+        parsed_item_content: "{{ decoded_item_content }}"
       loop: "{{ slurped_files_results.results }}" # Loop over the list of results from the 'slurp' task
       when: item.content is defined and item.content != "" # Ensure content exists and is not empty
       loop_control:
@@ -86,7 +86,7 @@
 
     - name: Display parsed content of each file individually
       ansible.builtin.set_stats:
-        data: "{{ item.content | b64decode | from_yaml }}"
+        data: "{{ item.content | b64decode }}"
       loop: "{{ slurped_files_results.results }}"
       when: item.content is defined and item.content != ""
       loop_control:
