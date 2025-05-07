@@ -1,6 +1,5 @@
 - name: Set Up a Project and Job Template
   hosts: all
-  become: true
 
   tasks:
     - name: Display inventory information
