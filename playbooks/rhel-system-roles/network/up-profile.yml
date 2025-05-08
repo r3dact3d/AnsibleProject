@@ -1,0 +1,9 @@
+---
+- name: Set {{ profile }} up
+  hosts: all
+  vars:
+    network_connections:
+      - name: "{{ profile }}"
+        state: up
+  roles:
+    - redhat.rhel_system_roles.network
