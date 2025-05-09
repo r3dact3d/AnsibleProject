@@ -30,7 +30,7 @@
                 IP_ADDRESS: "{{ '192.168.1.180' if event.url_check.url == 'http://192.168.1.180/admin' else '192.168.1.232' }}"
 
 
-    - name: URL is UP - Original Rule
+    - name: Recovery Notification
       condition: event.url_check.status == "up" and event.previous_status == "down"
       action:
         print_event:
