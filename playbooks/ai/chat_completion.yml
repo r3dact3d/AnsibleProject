@@ -2,9 +2,11 @@
 - name: Ask LLM a Question
   hosts: localhost
   gather_facts: false
+  collections:
+    - redhat.ai 
   vars:
-    - MY_TOKEN: undef
-    - BASE_URL: undef
+    MY_TOKEN: undef
+    BASE_URL: undef
 
   tasks:
     - name: Ask model a question
