@@ -1,7 +1,6 @@
 ---
 - name: Ask LLM a Question
-  hosts: "{{ _hosts | default(omit) }}"
-  connection: local
+  hosts: localhost
   gather_facts: false
   vars:
     - MY_TOKEN: undef
