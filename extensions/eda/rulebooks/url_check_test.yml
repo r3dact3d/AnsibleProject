@@ -3,30 +3,37 @@
   hosts: localhost
   sources:
     - ansible.eda.url_check:
-        name: blinker19_status # Giving a name to the source can be helpful for clarity
-        delay: 60 # How often to check in seconds
+        name: critical_services 
+        delay: 30 # How often to check in seconds
         verify_ssl: false
         urls:
-          - https://0ri0n.blinker19.com
-          - http://192.168.1.87:8123/lovelace/0
-          - http://192.168.1.180/admin
+          - http://192.168.1.180/admin  # Pi-hole dns
+          - https://192.168.1.232:8006  # Proxmox VE 
+    - ansible.eda.url_check:
+        name: internal_services
+        delay: 300
+        verify_ssl: false
+          - https://0ri0n.blinker19.com # Ollama & OpenWebUI
+          - http://192.168.1.87:8123/lovelace/0  # Home Assistant
 
   rules:
+    - name: Critical Service DOWN - Notify and Restart
+      condition: event.url_check.status == "down" and event.url_check.url in ["http://192.168.1.180/admin", "https://192.168.1.232:8006"]
+      actions: # Changed from 'action:' for multiple actions [15]
+        - debug: # Replaced unsupported 'send_notification' with supported 'debug' [1, 9]
+            msg: "Placeholder for notification: 🚨 Critical service DOWN: {{ event.url_check.url }}. Webhook: {{ lookup('env', 'SLACK_WEBHOOK_URL') }}" # Use debug to show what would be sent, Jinja supported in actions [9, 16]
+        - run_job_template: # This action is supported [1, 3]
+            name: "Restart Proxmox Container"
+            organization: "Blinker19"
+            job_args: # Structure and parameters match source description [4, 17]
+              extra_vars: # extra_vars supported to pass data [4, 13, 14]
+                IP_ADDRESS: "{{ '192.168.1.180' if event.url_check.url == 'http://192.168.1.180/admin' else '192.168.1.232' }}"
+
+
     - name: URL is UP - Original Rule
-      condition: event.url_check.status == "up"
+      condition: event.url_check.status == "up" and event.previous_status == "down"
       action:
         print_event:
-          msg: "SUCCESS: URL is UP!"
+          msg: "SERVICE RECOVERED: {{ event.url_check.url }} is UP!"
           pretty: true
-    - name: URL is DOWN - Original Rule
-      condition: event.url_check.status == "down"
-      action:
-        print_event:
-          msg: "FAILURE: URL is DOWN!"
-          pretty: true
-#        run_job_template:
-#          name: Restart a container running on Proxmox VE
-#          organization: Blinker19
-#          job_args:
-#            extra_vars:
-#              IP_ADDRESS: 192.168.1.232
+  
