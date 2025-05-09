@@ -1,0 +1,23 @@
+---
+- name: Blinker19 Internal Services
+  hosts: localhost
+  sources:
+    - ansible.eda.url_check:
+        name: internal_services
+        delay: 300
+        verify_ssl: false
+          - https://0ri0n.blinker19.com
+          - http://192.168.1.87:8123/lovelace/0
+  rules:
+    - name: Internal Service DOWN - Notify and Restart
+      condition: event.url_check.status == "down" and event.url_check.url in ["http://192.168.1.180/admin", "https://192.168.1.232:8006"]
+      actions:
+        - debug:
+            msg: "Placeholder for notification: Internal service DOWN: {{ event.url_check.url }}."
+
+    - name: Internal Service Recovery Notification
+      condition: event.url_check.status == "up" and event.previous_status == "down"
+      action:
+        print_event:
+          msg: "INTERNAL SERVICE RECOVERED: {{ event.url_check.url }} is UP!"
+          pretty: true
