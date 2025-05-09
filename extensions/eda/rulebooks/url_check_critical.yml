@@ -7,8 +7,8 @@
         delay: 30 # How often to check in seconds
         verify_ssl: false
         urls:
-          - http://192.168.1.180/admin
-          - https://192.168.1.232:8006
+          - http://192.168.1.180/admin # Pi-hole
+          - https://192.168.1.232:8006 # Proxmox
 
   rules:
     - name: Critical Service DOWN - Notify and Restart
