@@ -1,0 +1,17 @@
+---
+- name: Ask LLM a Question
+  hosts: "{{ _hosts | default(omit) }}"
+  connection: local
+  gather_facts: false
+  vars:
+    - MY_TOKEN: undef
+    - BASE_URL: undef
+
+  tasks:
+    - name: Ask model a question
+      redhat.ai.completion:
+        base_url: "{{ BASE_URL | default(http://1.2.3.4:8000) }}"
+        token: "{{ MY_TOKEN }}"
+        prompt: "\n\n### Instructions:\nCapital of India?\n\n### Response:\n"
+#        model_path: /var/home/ec2-user/.cache/instructlab/models/granite-8b-starter-v1
+      delegate_to: localhost
