@@ -11,6 +11,9 @@ keyed_groups:
     prefix: group
 groups:
   rhel_servers: "'RH' in (proxmox_tags_parsed|list)"
-#compose:
+compose:
+  ansible_host: "proxmox_lxc_interfaces | selectattr('name', 'equalto', 'eth0') | map(attribute='inet') | first | split('/') | first"
+
 #  ansible_port: 2222
-want_proxmox_nodes_ansible_host: true
+want_proxmox_nodes_ansible_host: false
+
