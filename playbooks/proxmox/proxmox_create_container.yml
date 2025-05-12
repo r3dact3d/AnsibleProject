@@ -1,0 +1,13 @@
+---
+- name: Playbook to get info on Proxmox nodes
+  hosts: localhost
+  tasks:
+    - name: Create new container with minimal options
+      community.general.proxmox:
+        node: "{{ proxmox_nodes_artifact.proxmox_nodes.node }}"
+        api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
+        api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
+        api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
+        password:  "{{ host_password }}"
+        hostname: "{{ hostname }}"
+        ostemplate: 'local:vztmpl/fedora-41-default_20241118_amd64.tar.xz'

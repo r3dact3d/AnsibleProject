@@ -15,6 +15,12 @@
       actions:
         - debug:
             msg: "Placeholder for notification: Internal service DOWN: {{ event.url_check.url }}."
+        - run_job_template:
+            name: "Proxmox Restart Container"
+            organization: "Launch"
+            job_args:
+              extra_vars:
+                IP_ADDRESS: "{{ event.url_check.url }}"
 
     - name: Internal Service Recovery Notification
       condition: event.url_check.status == "up" and event.previous_status == "down"
