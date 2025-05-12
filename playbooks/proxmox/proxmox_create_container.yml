@@ -14,3 +14,4 @@
         password:  "{{ host_password }}"
         hostname: "{{ ct_hostname }}"
         ostemplate: 'local:vztmpl/fedora-41-default_20241118_amd64.tar.xz'
+        disk: 'local-lvm:20'
