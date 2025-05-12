@@ -29,4 +29,9 @@
         api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
         api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
         api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
-      state: started
+        state: started
+
+    - name: Export new_container variable as artifact
+      ansible.builtin.set_stats:
+        data:
+          proxmox_new_container_artifact: "{{ new_container }}"
