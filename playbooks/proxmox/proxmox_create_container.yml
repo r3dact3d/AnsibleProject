@@ -9,5 +9,5 @@
         api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
         api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
         password:  "{{ host_password }}"
-        hostname: "{{ hostname }}"
+        hostname: "{{ ct_hostname }}"
         ostemplate: 'local:vztmpl/fedora-41-default_20241118_amd64.tar.xz'
