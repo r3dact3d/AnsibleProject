@@ -24,6 +24,7 @@
         cores: 1
         tags: automated
         onboot: true
+        timeout: 90
 
     - name: Print container details
       ansible.builtin.debug:
@@ -36,7 +37,8 @@
         api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
         api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
         state: started
-        
+        timeout: 90
+
     - name: Export new_container variable as artifact
       ansible.builtin.set_stats:
         data:
