@@ -18,9 +18,16 @@
         tags: automated
         onboot: true
         ostype: fedora
-        state: started
       register: new_container
 
     - name: Print container details
       ansible.builtin.debug:
         var: new_container
+
+#    - name: Start container
+#      community.general.proxmox:
+#        vmid: 100
+#        api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
+#        api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
+#        api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
+#      state: started
