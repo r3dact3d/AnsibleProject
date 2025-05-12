@@ -5,17 +5,18 @@ user: "{{ lookup('env', 'PROXMOX_USER') }}"
 password: "{{ lookup('env', 'PROXMOX_PASSWORD') }}"
 validate_certs: false
 want_facts: true
-
-compose:
-  ansible_host: >-
-    proxmox_lxc_interfaces | selectattr('name', 'equalto', 'eth0') |
-    map(attribute='inet') | first | split('/') | first
 keyed_groups:
   - prefix: proxmox
     key: proxmox_vmtype
   - prefix: proxmox_tags
     key: proxmox_tags_parsed
-strict_filters:
+
+compose:
+  ansible_host: >-
+    proxmox_lxc_interfaces | selectattr('name', 'equalto', 'eth0') |
+    map(attribute='inet') | first | split('/') | first
+
+filters:
   - proxmox_vmtype == 'lxc'
   - proxmox_status == 'running'
 
