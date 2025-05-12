@@ -1,5 +1,5 @@
 ---
-- name: Copy proxmox artifact playbook
+- name: Copy proxmox vms artifact playbook
   hosts: all
   tasks:
     - name: Print the stat artifact
