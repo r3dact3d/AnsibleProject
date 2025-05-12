@@ -13,11 +13,10 @@
         api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
         password: "{{ host_password }}"
         hostname: "{{ ct_hostname }}"
-        ostemplate: 'local:vztmpl/fedora-41-default_20241118_amd64.tar.xz'
+        ostemplate: "local:vztmpl/{{ ct_ostemplate }}"
         disk: 'local-lvm:20'
         tags: automated
         onboot: true
-        ostype: fedora
       register: new_container
 
     - name: Print container details
