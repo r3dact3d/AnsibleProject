@@ -1,0 +1,12 @@
+---
+- name: Copy proxmox artifact playbook
+  hosts: all
+  tasks:
+    - name: Print the stat artifact
+      ansible.builtin.debug:
+        var: proxmox_vms_artifact
+
+    - name: Copy artifact to locally to shadowbox
+      ansible.builtin.copy:
+        content: "{{ proxmox_vms_artifact }}"
+        dest: /tmp/proxmox_vms.yml

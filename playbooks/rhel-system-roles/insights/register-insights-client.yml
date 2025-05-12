@@ -1,0 +1,16 @@
+---
+- name: Manage systems with the rhc RHEL system role
+  hosts: all
+  tasks:
+    - name: Ensure insights is installed
+      ansible.builtin.package:
+        name: insights-client
+        state: present
+    - name: Registering system with username and password
+      ansible.builtin.include_role:
+        name: redhat.rhel_system_roles.rhc
+      vars:
+        rhc_auth:
+          login:
+            username: "{{ (lookup('env', 'INSIGHTS_USER')) }}"
+            password: "{{ (lookup('env', 'INSIGHTS_PASSWORD')) }}"

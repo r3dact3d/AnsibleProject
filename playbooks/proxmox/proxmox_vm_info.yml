@@ -20,3 +20,8 @@
       ansible.builtin.debug:
         var: proxmox_vms
 
+    - name: Export proxmox_vms variable as artifact
+      ansible.builtin.set_stats:
+        data:
+          proxmox_vms_artifact: "{{ proxmox_vms }}"
+

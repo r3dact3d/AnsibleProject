@@ -1,0 +1,47 @@
+---
+- name: Provision template and list VMs/containers
+  hosts: localhost
+  tasks:
+    - name: Define variables from hypothetical survey options
+      ansible.builtin.set_fact:
+        target_node_name: "{{ proxmox_nodes_artifact.proxmox_nodes.node }}" # Get node name from artifact
+        template_name: "ubuntu-22.04-standard_22.04-1_amd64.tar.gz" # Example: Could be a survey variable
+        template_storage: "local" # Example: Could be a survey variable
+        template_url: "http://download.proxmox.com/images/system/{{ template_name }}" # Example: Could be a survey variable
+
+    - name: Print defined variables (simulating survey input)
+      ansible.builtin.debug:
+        msg: "Target Node: {{ target_node_name }}, Template Name: {{ template_name }}, Storage: {{ template_storage }}, URL: {{ template_url }}"
+
+    - name: Ensure the specified container template is present on the target node
+      community.general.proxmox_template:
+        api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
+        api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
+        api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
+        api_token_id: "{{ token_id | default(omit) }}"
+        api_token_secret: "{{ token_secret | default(omit) }}"
+        node: "{{ target_node_name }}"
+        storage: "{{ template_storage }}"
+        template: "{{ template_name }}"
+        url: "{{ template_url }}"
+        state: present # Ensure the template exists [10]
+        validate_certs: false # Adjust as needed for your environment [11]
+      register: template_provision_result
+
+    - name: Print template provisioning result
+      ansible.builtin.debug:
+        var: template_provision_result
+
+    - name: **List all existing virtual machines/containers on the target node (Baseline)**
+      community.general.proxmox_vm_info:
+        api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
+        api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
+        api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
+        api_token_id: "{{ token_id | default(omit) }}"
+        api_token_secret: "{{ token_secret | default(omit) }}"
+        node: "{{ target_node_name }}"
+      register: proxmox_vms_baseline # Capture VM/container info
+
+    - name: **Print the proxmox_vms_baseline variable (Baseline Details)**
+      ansible.builtin.debug:
+        var: proxmox_vms_baseline
