@@ -5,7 +5,9 @@
     - name: Print the stat artifact
       ansible.builtin.debug:
         var: proxmox_nodes_artifact
+
     - name: Create new container with minimal options
+      register: new_container
       community.general.proxmox:
         node: "{{ proxmox_nodes_artifact.proxmox_nodes[0].node }}"
         api_user: "{{ lookup('env', 'PROXMOX_USER') }}"
@@ -15,9 +17,13 @@
         hostname: "{{ ct_hostname }}"
         ostemplate: "local:vztmpl/{{ ct_ostemplate }}"
         disk: 'local-lvm:20'
+        netif:
+          net0: "name=eth0,ip=dhcp,ip6=dhcp,bridge=vmbr0"
+        features:
+          - nesting=1
+        cores: 1
         tags: automated
         onboot: true
-      register: new_container
 
     - name: Print container details
       ansible.builtin.debug:
@@ -30,7 +36,7 @@
         api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') | default(omit) }}"
         api_host: "{{ lookup('env', 'PROXMOX_IP') }}"
         state: started
-
+        
     - name: Export new_container variable as artifact
       ansible.builtin.set_stats:
         data:
