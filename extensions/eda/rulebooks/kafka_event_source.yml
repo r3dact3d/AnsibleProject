@@ -1,15 +1,12 @@
 ---
 - name: Blinker19 Kafka Events
-  hosts: localhost
+  hosts: all
   sources:
     - ansible.eda.kafka:
         name: Kafka Event Source
-        host: shadowbox
-        port: "9092"
-        check_hostname: false
-        verify_mode: "CERT_OPTIONAL"
-        topic: "homeassistant1"
-        group_id: ansible-eda
+        host: 192.168.1.177
+        port: 9092
+        topic: homeassistant1
 
   rules:
     - name: kafka
