@@ -1,0 +1,19 @@
+---
+- name: Blinker19 Kafka Events
+  hosts: localhost
+  sources:
+    - ansible.eda.kafka:
+        name: Kafka Event Source
+        host: "192.168.1.177"
+        port: "9092"
+        check_hostname: false
+        verify_mode: "CERT_OPTIONAL"
+        topic: "home_assistant_1"
+
+  rules:
+    - name: kafka
+      condition: event.message != ""
+      action:
+        print_event:
+          msg: "{{ event.message }}"
+          pretty: true
