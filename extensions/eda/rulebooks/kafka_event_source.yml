@@ -1,6 +1,6 @@
 ---
 - name: Blinker19 Kafka Events
-  hosts: all
+  hosts: localhost
   sources:
     - ansible.eda.kafka:
         name: Kafka Event Source
@@ -9,6 +9,7 @@
         check_hostname: false
         verify_mode: "CERT_OPTIONAL"
         topic: "homeassistant1"
+        group_id: ansible-eda
 
   rules:
     - name: kafka
