@@ -12,8 +12,7 @@
 
   rules:
     - name: kafka
-      condition: event.message != ""
+      condition: event.body.message is defined
       action:
-        print_event:
-          msg: "{{ event.message }}"
-          pretty: true
+        debug:
+          msg: "{{ event.body.message }}"
