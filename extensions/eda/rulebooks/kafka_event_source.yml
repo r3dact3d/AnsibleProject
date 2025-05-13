@@ -10,7 +10,8 @@
 
   rules:
     - name: kafka
-      condition: event.body is defined
+      condition: event.message is defined
       action:
-        debug:
-          msg: "{{ event.body }}"
+        print_events:
+          msg: "{{ event.message }}"
+          pretty: true
