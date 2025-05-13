@@ -10,7 +10,7 @@
 
   rules:
     - name: kafka
-      condition: event.body.message != ""
+      condition: event is defined
       action:
         debug:
-          msg: "{{ event.body.message }}"
+          msg: "{{ event.body }}"
