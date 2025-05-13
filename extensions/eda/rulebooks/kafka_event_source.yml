@@ -10,7 +10,7 @@
 
   rules:
     - name: kafka
-      condition: event is defined
+      condition: event. is defined
       action:
         debug:
           msg: "{{ event.body }}"
