@@ -1,6 +1,6 @@
 ---
 - name: Blinker19 Kafka Events
-  hosts: localhost
+  hosts: all
   sources:
     - ansible.eda.kafka:
         name: Kafka Event Source
@@ -8,11 +8,11 @@
         port: "9092"
         check_hostname: false
         verify_mode: "CERT_OPTIONAL"
-        topic: "home_assistant_1"
+        topic: "homeassistant1"
 
   rules:
     - name: kafka
-      condition: event.body.message is defined
+      condition: event.body.message != ""
       action:
         debug:
           msg: "{{ event.body.message }}"
