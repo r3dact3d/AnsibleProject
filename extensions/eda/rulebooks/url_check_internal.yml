@@ -8,7 +8,8 @@
         verify_ssl: false
         urls:
           - https://0ri0n.blinker19.com # Ollama/OpenWeb Ui
-          - http://192.168.1.87:8123/lovelace/0 # Home Assistant
+          - http://192.168.1.87:8123/lovelace/0
+          - http://192.168.1.87:8123/api # Home Assistant
   rules:
     - name: Internal Service DOWN - Notify and Restart
       condition: event.url_check.status == "down"
