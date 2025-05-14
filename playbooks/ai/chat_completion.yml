@@ -7,7 +7,7 @@
   vars:
     OLLAMA_TOKEN: "{{ (lookup('env', 'MY_TOKEN')) }}"
     OLLAMA_URL: "http://192.168.1.100:11434/api/generate"
-    OLLAMA_MODEL: "/root/.ollama/models/manifests/registry.ollama.ai/library/granite3.1-moe/3b"
+    OLLAMA_MODEL: "/home/larry/ollama/models/manifests/registry.ollama.ai/library/granite3.1-moe/3b"
   tasks:
     - name: Print vars list OLLAMA_TOKEN OLLAMA_URL OLLAMA_MODEL
       ansible.builtin.debug:
@@ -20,7 +20,7 @@
       redhat.ai.completion:
         base_url: "{{ OLLAMA_URL }}"
         token: "{{ OLLAMA_TOKEN }}"
-#        model_path: "{{ OLLAMA_MODEL }}"
+        model_path: "{{ OLLAMA_MODEL }}"
         prompt: "\n\n### Instructions:\nCapital of India?\n\n### Response:\n"
         validate_certs: false
 #        model_path: /var/home/ec2-user/.cache/instructlab/models/granite-8b-starter-v1
