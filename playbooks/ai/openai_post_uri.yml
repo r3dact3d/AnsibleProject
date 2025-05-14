@@ -28,3 +28,7 @@
         status_code: 200
         timeout: 60
       register: ollama_response
+
+    - name: Print the ollama_response variable
+      debug:
+        var: "{{ ollama_response }}"
