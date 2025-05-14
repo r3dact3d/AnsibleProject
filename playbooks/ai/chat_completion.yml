@@ -6,7 +6,7 @@
     - redhat.ai 
   vars:
     OLLAMA_TOKEN: "{{ (lookup('env', 'MY_TOKEN')) }}"
-    OLLAMA_URL: "http://192.168.1.100:11434/api/generate"
+    OLLAMA_URL: "http://192.168.1.100:11434"
     OLLAMA_MODEL: "/home/larry/ollama/models/manifests/registry.ollama.ai/library/granite3.1-moe/3b"
   tasks:
     - name: Print vars list OLLAMA_TOKEN OLLAMA_URL OLLAMA_MODEL
