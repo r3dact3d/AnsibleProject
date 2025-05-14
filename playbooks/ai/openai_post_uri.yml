@@ -2,9 +2,9 @@
 - name: Send post request to openai API
   hosts: localhost
   vars:
-    ollama_ip: 192.168.1.100
-    ollama_port: 11434
-    ollama_token: happy_token
+    ollama_ip: "{{ lookup('env', 'OLLAMA_IP') }}"
+    ollama_port: "{{ lookup('env', 'OLLAMA_PORT') }}"
+    ollama_token: "{{ lookup('env', 'OLLAMA_TOKEN') }}"
     ollama_model: 'granite3.1-moe:3b'
 
   tasks:
