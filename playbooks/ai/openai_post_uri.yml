@@ -21,9 +21,9 @@
           model: "{{ ollama_model | default('granite3.1-moe:3b') }}"
           stream: false
           options:
-            temperature: "{{ input_temperature | default(0.2) }}"
-            top_p: "{{ input_top_p | default(0.9) }}"
-            num_keep: "{{ input_n | default(1) }}"
+            temperature: "{{ input_temperature | default('0.2') }}"
+            top_p: "{{ input_top_p | default('0.9') }}"
+            num_keep: "{{ input_num_keep | default('1') }}"
         body_format: json
         return_content: true
         status_code: 200
