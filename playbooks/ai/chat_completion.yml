@@ -4,15 +4,12 @@
   gather_facts: false
   collections:
     - redhat.ai 
-  vars:
-    MY_TOKEN: undef
-    BASE_URL: undef
 
   tasks:
     - name: Ask model a question
       redhat.ai.completion:
-        base_url: "{{ BASE_URL | default(http://1.2.3.4:8000) }}"
-        token: "{{ MY_TOKEN }}"
+        base_url: "{{ (lookup('env', 'BASE_URL')) | default(http://1.2.3.4:8000) }}"
+        token: "{{ (lookup('env', 'MY_TOKEN')) | default(null) }}"
         prompt: "\n\n### Instructions:\nCapital of India?\n\n### Response:\n"
 #        model_path: /var/home/ec2-user/.cache/instructlab/models/granite-8b-starter-v1
       delegate_to: localhost
