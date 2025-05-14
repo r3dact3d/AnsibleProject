@@ -1,17 +1,21 @@
 ---
-- name: send post request to openai API
+- name: Send post request to openai API
   hosts: localhost
+  vars:
+    ollama_ip: 192.168.1.100
+    ollama_port: 11434
+    ollama_token: happy_token
   tasks:
     - name: Send POST request using uri module
       ansible.builtin.uri:
-        url: "http://{{ rhelai_server }}:{{ rhelai_port }}/v1/completions"
+        url: "http://{{ ollama_ip }}:{{ ollama_port }}/v1/completions"
         method: POST
         headers:
           accept: "application/json"
           Content-Type: "application/json"
-          Authorization: "Bearer {{ rhelai_token }}"
+          Authorization: "Bearer {{ ollama_token }}"
         body:
-          prompt: "{{ gpt_prompt | default('What is the capital of the USA?') }}"
+          prompt: "{{ ollama_prompt | default('What is the capital of the USA?') }}"
           max_tokens: "{{ max_tokens | default('50') }}"
           model: "/root/.cache/instructlab/models/granite-8b-lab-v1"
           temperature: "{{ input_temperature | default(0) }}"
@@ -21,4 +25,4 @@
         return_content: true
         status_code: 200
         timeout: 60
-      register: gpt_response
+      register: ollama_response

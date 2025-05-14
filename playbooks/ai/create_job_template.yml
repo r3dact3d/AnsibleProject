@@ -1,0 +1,24 @@
+----
+- name: Create Job Template Playbook
+  hosts: localhost
+  tasks:
+    - name: Create Job Template
+      ansible.controller.job_template:
+        name: "Lightspeed Remediation Playbook Generator"
+        job_type: "run"
+        inventory: "{{ input_inventory | default('Demo Inventory') }}"
+        project: "{{ input_project | default('AI-EDA') }}"
+        playbook: "{{ input_playbook | default('playbooks/lightspeed_generate.yml') }}"
+        credentials:
+          - "{{ input_credential | default('AAP') }}"
+          - "{{ vault_credential | default('ansible-vault') }}"
+        validate_certs: true
+        execution_environment: "Default execution environment"
+
+    - name: Load remediation workflow template
+      ansible.controller.workflow_job_template:
+        name: Remediation Workflow
+        organization: Default
+        state: present
+        survey_enabled: true
+        survey_spec: "{{ lookup('template', './templates/ollama_survey.j2') }}"

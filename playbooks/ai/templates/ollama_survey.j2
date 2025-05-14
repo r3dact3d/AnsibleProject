@@ -1,0 +1,22 @@
+{
+  "name": "Prompt Lightspeed",
+  "description": "Survey for working with Ansible Lightspeed",
+  "spec": [
+    {
+      "type": "textarea",
+      "question_name": "Enter a prompt to create a remediation playbook?",
+      "question_description": "This prompt will be used with Ansible Lightspeed to automatically generate an Ansible Playbook",
+      "variable": "lightspeed_prompt",
+      "required": true,
+      "default": "For all hosts, use become true,  Remove line that contains InvalidDirectiveHere from /etc/httpd/conf/httpd.conf and restart httpd"
+    },
+    {
+      "type": "textarea",
+      "question_name": "This box shows the prompt generated from our Workflow job template",
+      "question_description": "This area shows you that AI was able to understand the error and create a prompt for Ansible Lightspeed.",
+      "variable": "ai_lightspeed_prompt",
+      "required": false,
+      "default": "{{ gpt_generated_prompt }}"
+    }
+  ]
+}

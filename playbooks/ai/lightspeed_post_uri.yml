@@ -1,0 +1,14 @@
+---
+- name: Send post request to openai API
+  hosts: localhost
+    - name: Send request to AI API
+      ansible.builtin.uri:
+        url: "{{ input_lightspeed_url | default('https://c.ai.ansible.redhat.com/api/v0/ai/generations/') }}"
+        method: POST
+        headers:
+          Content-Type: "application/json"
+          Authorization: "Bearer {{ lightspeed_wca_token }}"
+        body_format: json
+        body:
+          text: "{{ lightspeed_prompt }}"
+      register: response
