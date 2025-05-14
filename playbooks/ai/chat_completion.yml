@@ -20,7 +20,7 @@
       redhat.ai.completion:
         base_url: "{{ OLLAMA_URL }}"
         token: "{{ OLLAMA_TOKEN }}"
-        model_path: "{{ OLLAMA_MODEL }}"
+#        model_path: "{{ OLLAMA_MODEL }}"
         prompt: "\n\n### Instructions:\nCapital of India?\n\n### Response:\n"
         validate_certs: false
 #        model_path: /var/home/ec2-user/.cache/instructlab/models/granite-8b-starter-v1
