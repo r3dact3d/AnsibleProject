@@ -10,7 +10,7 @@
   tasks:
     - name: Send POST request using uri module
       ansible.builtin.uri:
-        url: "http://{{ ollama_ip }}:{{ ollama_port }}/v1/completions"
+        url: "http://{{ ollama_ip }}:{{ ollama_port }}/api/generate"
         method: POST
         headers:
           accept: "application/json"
