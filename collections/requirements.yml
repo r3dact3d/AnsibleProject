@@ -2,4 +2,3 @@ collections:
   - infra.aap_configuration
   - infra.aap_configuration_extended
   - ansible.eda
-  - redhat.ai
