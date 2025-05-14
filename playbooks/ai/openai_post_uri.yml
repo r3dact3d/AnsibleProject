@@ -22,7 +22,7 @@
           stream: false
           options:
             temperature: "{{ input_temperature | default(0.2) }}"
-            top_p: "{{ input_top_p | default(1) }}"
+            top_p: "{{ input_top_p | default(0.9) }}"
             num_keep: "{{ input_n | default(1) }}"
         body_format: json
         return_content: true
