@@ -9,6 +9,13 @@
     OLLAMA_URL: "{{ (lookup('env', 'BASE_URL')) }}"
     OLLAMA_MODEL: "{{ (lookup('env', 'MODEL_PATH')) }}"
   tasks:
+    - name: Print vars list OLLAMA_TOKEN OLLAMA_URL OLLAMA_MODEL
+      ansible.builtin.debug:
+        msg:
+          - 'OLLAMA_TOKEN: {{ OLLAMA_TOKEN }}'
+          - 'OLLAMA_URL: {{ OLLAMA_URL }}'
+          - 'OLLAMA_MODEL: {{ OLLAMA_MODEL }}'
+
     - name: Ask model a question
       redhat.ai.completion:
         base_url: "{{ OLLAMA_URL }}"
