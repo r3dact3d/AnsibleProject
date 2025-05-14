@@ -5,8 +5,8 @@
   collections:
     - redhat.ai 
   vars:
-    OLLAMA_TOKEN: "{{ (lookup('env', 'MY_TOKEN')) | default(null) }}"
-    OLLAMA_URL: "{{ (lookup('env', 'BASE_URL')) | default(http://1.2.3.4:8000) }}"
+    OLLAMA_TOKEN: "{{ (lookup('env', 'MY_TOKEN')) }}"
+    OLLAMA_URL: "{{ (lookup('env', 'BASE_URL')) }}"
   tasks:
     - name: Ask model a question
       redhat.ai.completion:
