@@ -5,6 +5,8 @@
     ollama_ip: 192.168.1.100
     ollama_port: 11434
     ollama_token: happy_token
+    ollama_model: 'granite3.1-moe:3b'
+
   tasks:
     - name: Send POST request using uri module
       ansible.builtin.uri:
@@ -17,7 +19,7 @@
         body:
           prompt: "{{ ollama_prompt | default('What is the capital of the USA?') }}"
           max_tokens: "{{ max_tokens | default('50') }}"
-          model: "/root/.cache/instructlab/models/granite-8b-lab-v1"
+          model: "{{ ollama_model | default('granite3.1-moe:3b') }}"
           temperature: "{{ input_temperature | default(0) }}"
           top_p: "{{ input_top_p | default(1) }}"
           n: "{{ input_n | default(1) }}"
