@@ -53,6 +53,7 @@
         body_format: json
         body: {
           "model": "{{ ollama_api_model }}",
+          "stream": "false",
           "messages": [
             {
               "role": "user",
@@ -61,7 +62,6 @@
           ],
           "temperature": 0.1
         }
-        stream: false
         status_code: 200
         return_content: true
         timeout: 60
