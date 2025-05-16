@@ -27,7 +27,19 @@
           1. Explain what this JSON data represents in the context of Home Assistant.
           2. Use your expertise and experience to suggest how to use this information.
           3. Blow my mind
+          4. Finally, provide a new Event-Driven Ansible rulebook in YAML format like the example below.
 
+          ```yaml
+          rules:
+            - name: Motion Sensor State Changed
+              condition:
+                all:
+                  - event.payload is defined
+                  - event.payload.event.event_type == "state_changed"
+                  - event.payload.event.data.entity_id is regex('^binary_sensor\..+?_motion$')
+                  - event.payload.event.data.new_state.state in ['on', 'off']
+          ```
+          Output this rule book in a section called rules.
 
     - name: Display the prepared prompt (for debugging)
       ansible.builtin.debug:
