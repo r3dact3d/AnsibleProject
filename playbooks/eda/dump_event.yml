@@ -8,19 +8,3 @@
     ansible.builtin.debug:
       msg: |
         {{ ansible_eda }}
-
-  - name: Parse JSON log and extract important details
-    when: "{{ ansible_eda.event.payload.data.event_id }}" == sensor.iss 
-    set_fact:
-      important_details: >-
-        {
-          received_at: "{{ ansible_eda.event.meta.received_at }}",
-          friendly_name_new: "{{ ansible_eda.event.payload.event.data.new_state.attributes.friendly_name }}",
-          latitude_new: "{{ ansible_eda.event.payload.event.data.new_state.attributes.latitude }}",
-          longitude_new: "{{ ansible_eda.event.payload.event.data.new_state.attributes.longitude }}",
-          state_changed: "{{ ansible_eda.event.payload.event_type }}"
-        }
-
-  - name: Print the extracted details
-    debug:
-      msg: "Extracted details: {{ important_details }}"

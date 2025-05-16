@@ -49,7 +49,7 @@
         headers:
           accept: "application/json"
           Content-Type: "application/json"
-          Authorization: "Bearer {{ ollama_api_key }}"
+          Authorization: "Bearer {{ ollama_api_token }}"
         body_format: json
         body: {
           "model": "{{ ollama_api_model }}",
