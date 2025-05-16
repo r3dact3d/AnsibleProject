@@ -25,7 +25,9 @@
 
           Please perform the following tasks:
           1. Explain what this JSON data represents in the context of Home Assistant.
-          2. Provide a Python-compatible regular expression (regex) string that can be used to parse and extract the value(s) of any "entity_id" key(s) from a similar JSON structure if it were presented as plain text. The regex should aim to capture the entity_id value itself.
+          2. Use your expertise and experience to suggest how to use this information.
+          3. Blow my mind
+
 
     - name: Display the prepared prompt (for debugging)
       ansible.builtin.debug:
@@ -57,30 +59,6 @@
         timeout: 60
       register: llm_api_response
 
-    - name: Check LLM API Response for errors (basic)
-      ansible.builtin.fail:
-        msg: "LLM API call failed or returned an unexpected structure. Response: {{ llm_api_response }}"
-      when: >
-        llm_api_response.json is not defined or
-        llm_api_response.json.choices is not defined or
-        llm_api_response.json.choices | length == 0 or
-        llm_api_response.json.choices[0].message is not defined or
-        llm_api_response.json.choices[0].message.content is not defined
-
-    - name: Extract and parse content from LLM response
-      ansible.builtin.set_fact:
-        llm_extracted_content: "{{ (llm_api_response.json.choices[0].message.content | from_json) if (llm_api_response.json.choices[0].message.content | trim | regex_search('^\\{.*\\}$')) else {'explanation': 'Failed to parse LLM output as JSON.', 'regex_string': 'Error'} }}"
-      
-    - name: Display LLM's Explanation
+    - name: Print the llm_api_response
       ansible.builtin.debug:
-        msg: |
-          LLM Explanation of Home Assistant JSON:
-          ---------------------------------------
-          {{ llm_extracted_content.explanation | default('No explanation provided or parsing failed.') }}
-
-    - name: Display LLM's Generated Regex
-      ansible.builtin.debug:
-        msg: |
-          LLM Generated Regex for entity_id:
-          ----------------------------------
-          {{ llm_extracted_content.regex_string | default('No regex provided or parsing failed.') }}
+        var: llm_api_response
