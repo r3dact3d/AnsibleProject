@@ -61,7 +61,7 @@
           ],
           "temperature": 0.1
         }
-
+        stream: false
         status_code: 200
         return_content: true
         timeout: 60
