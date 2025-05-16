@@ -27,16 +27,6 @@
           1. Explain what this JSON data represents in the context of Home Assistant.
           2. Provide a Python-compatible regular expression (regex) string that can be used to parse and extract the value(s) of any "entity_id" key(s) from a similar JSON structure if it were presented as plain text. The regex should aim to capture the entity_id value itself.
 
-          Please provide your response STRICTLY as a JSON object with two keys:
-          - "explanation": A string containing your explanation of the JSON data.
-          - "regex_string": A string containing the generated Python-compatible regex.
-
-          Example of desired output format:
-          {
-            "explanation": "This JSON shows...",
-            "regex_string": "your_regex_here"
-          }
-
     - name: Display the prepared prompt (for debugging)
       ansible.builtin.debug:
         var: llm_prompt
