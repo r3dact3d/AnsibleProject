@@ -1,0 +1,96 @@
+---
+- name: Interact with LLM for Home Assistant JSON Analysis
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ollama_api_url: "{{ lookup('env', 'OLLAMA_API_URL')}}"
+    ollama_api_token: "{{ lookup('env', 'OLLAMA_API_TOKEN') }}"
+    ollama_api_model: 'granite3.1-moe:3b'
+
+
+  tasks:
+    - name: Set Home Assistant JSON as a fact
+      ansible.builtin.set_fact:
+        home_assistant_json_output: "{{ ansible_eda }}"
+
+    - name: Prepare the prompt for the LLM
+      ansible.builtin.set_fact:
+        llm_prompt: |
+          You are an AI assistant specialized in Home Assistant, Ansible, Python and JSON data.
+          I have the following JSON output from Home Assistant:
+
+          ```json
+          {{ home_assistant_json_output | to_nice_json }}
+          ```
+
+          Please perform the following tasks:
+          1. Explain what this JSON data represents in the context of Home Assistant.
+          2. Provide a Python-compatible regular expression (regex) string that can be used to parse and extract the value(s) of any "entity_id" key(s) from a similar JSON structure if it were presented as plain text. The regex should aim to capture the entity_id value itself.
+
+          Please provide your response STRICTLY as a JSON object with two keys:
+          - "explanation": A string containing your explanation of the JSON data.
+          - "regex_string": A string containing the generated Python-compatible regex.
+
+          Example of desired output format:
+          {
+            "explanation": "This JSON shows...",
+            "regex_string": "your_regex_here"
+          }
+
+    - name: Display the prepared prompt (for debugging)
+      ansible.builtin.debug:
+        var: llm_prompt
+      when: true
+
+    - name: Call LLM API and Register Response
+      ansible.builtin.uri:
+        url: "{{ ollama_api_url }}/api/chat"
+        method: POST
+        headers:
+          accept: "application/json"
+          Content-Type: "application/json"
+          Authorization: "Bearer {{ ollama_api_key }}"
+        body_format: json
+        body: {
+          "model": "{{ ollama_api_model }}",
+          "messages": [
+            {
+              "role": "user",
+              "content": "{{ llm_prompt }}"
+            }
+          ],
+          "temperature": 0.1
+        }
+
+        status_code: 200
+        return_content: true
+        timeout: 60
+      register: llm_api_response
+
+    - name: Check LLM API Response for errors (basic)
+      ansible.builtin.fail:
+        msg: "LLM API call failed or returned an unexpected structure. Response: {{ llm_api_response }}"
+      when: >
+        llm_api_response.json is not defined or
+        llm_api_response.json.choices is not defined or
+        llm_api_response.json.choices | length == 0 or
+        llm_api_response.json.choices[0].message is not defined or
+        llm_api_response.json.choices[0].message.content is not defined
+
+    - name: Extract and parse content from LLM response
+      ansible.builtin.set_fact:
+        llm_extracted_content: "{{ (llm_api_response.json.choices[0].message.content | from_json) if (llm_api_response.json.choices[0].message.content | trim | regex_search('^\\{.*\\}$')) else {'explanation': 'Failed to parse LLM output as JSON.', 'regex_string': 'Error'} }}"
+      
+    - name: Display LLM's Explanation
+      ansible.builtin.debug:
+        msg: |
+          LLM Explanation of Home Assistant JSON:
+          ---------------------------------------
+          {{ llm_extracted_content.explanation | default('No explanation provided or parsing failed.') }}
+
+    - name: Display LLM's Generated Regex
+      ansible.builtin.debug:
+        msg: |
+          LLM Generated Regex for entity_id:
+          ----------------------------------
+          {{ llm_extracted_content.regex_string | default('No regex provided or parsing failed.') }}

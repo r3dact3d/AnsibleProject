@@ -2,23 +2,22 @@
 - name: Send post request to openai API
   hosts: localhost
   vars:
-    ollama_ip: "192.168.1.100"
-    ollama_port: "11434"
-    ollama_token: "{{ lookup('env', 'OLLAMA_TOKEN') }}"
-    ollama_model: 'granite3.1-moe:3b'
+    ollama_api_url: "{{ lookup('env', 'OLLAMA_API_URL') }}"
+    ollama_api_token: "{{ lookup('env', 'OLLAMA_API_TOKEN') }}"
+    ollama_api_model: 'granite3.1-moe:3b'
 
   tasks:
     - name: Send POST request using uri module
       ansible.builtin.uri:
-        url: "http://{{ ollama_ip }}:{{ ollama_port }}/api/generate"
+        url: "{{ ollama_api_url }}/api/generate"
         method: POST
         headers:
           accept: "application/json"
           Content-Type: "application/json"
-          Authorization: "Bearer {{ ollama_token }}"
+          Authorization: "Bearer {{ ollama_api_token }}"
         body:
           prompt: "{{ ollama_prompt | default('What is the capital of the USA?') }}"
-          model: "{{ ollama_model | default('granite3.1-moe:3b') }}"
+          model: "{{ ollama_api_model | default('granite3.1-moe:3b') }}"
           stream: false
           options:
             temperature: 0.2
