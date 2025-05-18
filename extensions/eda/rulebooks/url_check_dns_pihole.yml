@@ -1,6 +1,8 @@
 ---
 - name: Blinker19 DNS Services
   hosts: localhost
+  vars:
+    check_status: "{{ INPUT_STATUS | default(down) }}"
   sources:
     - ansible.eda.url_check:
         name: internal_services
@@ -11,25 +13,12 @@
           - http://clearbox/admin
           - http://blackbox/admin
   rules:
-    - name: Internal DNS Service DOWN
-      condition: event.url_check.status == "down"
+    - name: Internal DNS Service "{{ check_status }}"
+      condition: event.url_check.status == "{{ check_status }}"
       actions:
-        - set_fact:
-            fact:
-              url_states: "{{ url_states | default({}) | combine({event.url_check.url: event.url_check.status}) }}"
         - debug:
-            msg: "Internal service DOWN: {{ url_states }}."
+            msg: "Internal service {{ event.url_check.url }} is {{ check_status }}."
         - run_workflow_template:
             name: "URL Check Remediation"
             organization: "Blinker19"
 
-    - name: Internal DNS Service Recovery Notification
-      condition:
-        all:
-          - event.url_check.status == "up"
-          - facts.previous_state << fact.url_states[event.url_check.url] == "down"
-
-      action:
-        print_event:
-          msg: "INTERNAL DNS SERVICE RECOVERED: {{ event.url_check.url }} is now {{ event.url_check.status }} (was {{ facts.previous_state }})"
-          pretty: true
