@@ -2,7 +2,7 @@
 - name: Blinker19 DNS Services
   hosts: localhost
   vars:
-    check_status: "{{ INPUT_STATUS | default(down) }}"
+    check_status: "{{ INPUT_STATUS | default("down") }}"
   sources:
     - ansible.eda.url_check:
         name: internal_services
