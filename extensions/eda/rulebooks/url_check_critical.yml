@@ -1,25 +1,22 @@
 ---
-- name: Check Blinker19 Services and Debug URL Events
+- name: Blinker19 Internal Services
   hosts: localhost
+  vars:
+    check_status: "{{ INPUT_STATUS | default(down) }}"
   sources:
     - ansible.eda.url_check:
         name: critical_services
         delay: 30 # How often to check in seconds
         verify_ssl: false
         urls:
-          - http://192.168.1.180/admin # Pi-hole
           - https://192.168.1.232:8006 # Proxmox
 
   rules:
-    - name: Critical Service DOWN - Notify and Restart
-      condition: event.url_check.status == "down"
+    - name: Blinker19 Internal Service Status
+      condition: event.url_check.status == "{{ check_status }}"
       actions:
         - debug:
-            msg: "Placeholder for notification: Critical service DOWN: {{ event.url_check.url }}."
-
-    - name: Critical Service Recovery Notification
-      condition: event.url_check.status == "up" and event.previous_status == "down"
-      action:
-        print_event:
-          msg: "CRITICAL SERVICE RECOVERED: {{ event.url_check.url }} is UP!"
-          pretty: true
+            msg: "Internal service {{ event.url_check.url }} is {{ check_status }}."
+        - run_workflow_template:
+            name: "URL Check Remediation"
+            organization: "Blinker19"
