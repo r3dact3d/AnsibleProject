@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
 
-  - name: Dump event
-    ansible.builtin.debug:
-      msg: |
-        {{ ansible_eda }}
+    - name: Print payload
+      ansible.builtin.debug:
+        msg: |
+          "{{ ansible_eda }}"
