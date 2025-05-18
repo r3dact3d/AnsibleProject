@@ -13,7 +13,7 @@
           - http://clearbox/admin
           - http://blackbox/admin
   rules:
-    - name: Internal DNS Service "{{ check_status }}"
+    - name: Internal DNS Service Status
       condition: event.url_check.status == "{{ check_status }}"
       actions:
         - debug:
