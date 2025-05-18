@@ -7,9 +7,9 @@
         delay: 300
         verify_ssl: false
         urls:
-          - http://pihole-vip.pi.hole
-          - http://clearbox
-          - http://blackbox
+          - http://pihole-vip.pi.hole/admin
+          - http://clearbox/admin
+          - http://blackbox/admin
   rules:
     - name: Internal DNS Service DOWN 
       condition: event.url_check.status == "down"
