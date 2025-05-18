@@ -1,19 +1,18 @@
 ---
-- name: Blinker19 LLM Services
+- name: Blinker19 Internal Services
   hosts: localhost
   vars:
     check_status: "{{ INPUT_STATUS | default(down) }}"
   sources:
     - ansible.eda.url_check:
-        name: internal_services
-        delay: 300
+        name: critical_services
+        delay: 30 # How often to check in seconds
         verify_ssl: false
         urls:
-          - http://ollama:11434
-          - https://0ri0n.blinker19.com
-           # Ollama/OpenWeb Ui
+          - https://192.168.1.232:8006 # Proxmox
+
   rules:
-    - name: Blinker19 LLM Service Status
+    - name: Blinker19 Internal Service Status
       condition: event.url_check.status == "{{ check_status }}"
       actions:
         - debug:
