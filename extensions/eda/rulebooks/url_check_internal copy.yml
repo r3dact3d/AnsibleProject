@@ -1,0 +1,28 @@
+---
+- name: Blinker19 DNS Services
+  hosts: localhost
+  sources:
+    - ansible.eda.url_check:
+        name: internal_services
+        delay: 300
+        verify_ssl: false
+        urls:
+          - http://pihole-vip.pi.hole
+          - http://clearbox
+          - http://blackbox
+  rules:
+    - name: Internal DNS Service DOWN 
+      condition: event.url_check.status == "down"
+      actions:
+        - debug:
+            msg: "Placeholder for notification: Internal service DOWN: {{ event.url_check.url }}."
+        - run_workflow_template:
+            name: "URL Check Remediation"
+            organization: "Launch"
+
+    - name: Internal DNS Service Recovery Notification
+      condition: event.url_check.status == "up" and event.previous_status == "down"
+      action:
+        print_event:
+          msg: "INTERNAL DNS SERVICE RECOVERED: {{ event.url_check.url }} is UP!"
+          pretty: true
