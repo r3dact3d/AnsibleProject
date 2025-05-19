@@ -7,13 +7,11 @@
     ollama_api_token: "{{ lookup('env', 'OLLAMA_API_TOKEN') }}"
     ollama_api_model: 'granite3.1-moe:3b'
     weather_station_url: "{{ lookup('env', 'WEATHER_STATION_URL') }}"
-    weather_station_api: "{{ lookup('env', 'WEATHER_STATION_API') }}"
-    weather_station_appkey: "{{ lookup('env', 'WEATHER_STATION_APPKEY') }}"
 
   tasks:
     - name: Call Ambient Weather Station API and register the Response
       ansible.builtin.uri:
-        url: "{{ weather_station_url }}/v1/devices?applicationKey={{ weather_station_appkey }}&apiKey={{ weather_station_api }}"
+        url: "{{ weather_station_url }}"
         method: GET
         headers:
           Content-Type: application/json
