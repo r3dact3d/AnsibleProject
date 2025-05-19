@@ -1,6 +1,6 @@
 ---
 - name: Interact with LLM for AAP Resource YAML Analysis
-  hosts: localhost
+  hosts: all
   gather_facts: false
   vars:
     ollama_api_url: "{{ lookup('env', 'OLLAMA_API_URL') }}"
@@ -27,7 +27,7 @@
     - name: Prepare the prompt for the LLM
       ansible.builtin.set_fact:
         llm_prompt: |
-          You are an AI assistant specialized in Ansible Automation Platform, jinja, yaml, and python.  
+          You are an AI assistant specialized in Ansible Automation Platform, jinja, yaml, and python.
           Your purpose is to compare the difference in Ansible Automation Platform resource configuration.
 
           Original configuration

@@ -1,6 +1,6 @@
 ---
 - name: Copy filetree artifact playbook
-  hosts: localhost
+  hosts: all
   tasks:
     - name: Print the artifact
       ansible.builtin.debug:
