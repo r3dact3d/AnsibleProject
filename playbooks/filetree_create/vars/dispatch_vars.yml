@@ -18,7 +18,7 @@ controller_templates:
   - name: Filetree Create
     organization: Default
     project: Ansible Project
-    inventory: ""
+    inventory: "Filetree Inventory"
     playbook: playbooks/filetree_create/filetree_create.yml
     scm_branch: ""
     forks: 0
@@ -32,7 +32,7 @@ controller_templates:
   - name: Filetree Artifact
     organization: Default
     project: Ansible Project
-    inventory: ""
+    inventory: "Filetree Inventory"
     playbook: playbooks/filetree_create/filetree_artifact.yml
     scm_branch: ""
     forks: 0
