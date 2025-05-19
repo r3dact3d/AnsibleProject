@@ -18,7 +18,7 @@
     - name: Set stat from registered file_data
       when: file_data.stat.exists
       ansible.builtin.set_fact:
-        filetree_output_orig: {{ lookup('file', '/etc/filetree_output_stat') }}"
+        filetree_output_orig: "{{ lookup('file', '/etc/filetree_output_stat') }}"
 
     - name: Backup the previous artifact
       when: file_data.stat.exists
