@@ -1,0 +1,70 @@
+---
+- name: Interact with LLM for Ambient Weather Station JSON Analysis
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ollama_api_url: "{{ lookup('env', 'OLLAMA_API_URL') }}"
+    ollama_api_token: "{{ lookup('env', 'OLLAMA_API_TOKEN') }}"
+    ollama_api_model: 'granite3.1-moe:3b'
+    weather_station_url: "{{ lookup('env', 'WEATHER_STATION_URL') }}"
+    weather_station_api: "{{ lookup('env', 'WEATHER_STATION_API') }}"
+    weather_station_appkey: "{{ lookup('env', 'WEATHER_STATION_APPKEY') }}"
+
+  tasks:
+    - name: Call Ambient Weather Station API and register the Response
+      ansible.builtin.uri:
+        url: "{{ weather_station_url }}/v1/devices?applicationKey={{ weather_station_appkey }}&apiKey={{ weather_station_api }}"
+        method: GET
+        headers:
+          Content-Type: application/json
+        return_content: true
+      register: weather_station_response
+
+    - name: Prepare the prompt for the LLM
+      ansible.builtin.set_fact:
+        llm_prompt: |
+          You are an AI assistant specialized in decoding weather data from comma seperate values.
+          I have the following JSON output from Ambient Weather Station:
+
+          ```json
+          {{ weather_station_response | to_nice_json }}
+          ```
+
+          Please perform the following tasks:
+          1. Review the information provided along
+          2. Review any context that you need
+          3. As an amateur radio operator give the accurate weather report.
+
+    - name: Display the prepared prompt (for debugging)
+      ansible.builtin.debug:
+        var: llm_prompt
+      when: true
+
+    - name: Call LLM API and Register Response
+      ansible.builtin.uri:
+        url: "{{ ollama_api_url }}/api/chat"
+        method: POST
+        headers:
+          accept: "application/json"
+          Content-Type: "application/json"
+          Authorization: "Bearer {{ ollama_api_token }}"
+        body_format: json
+        body: {
+          "model": "{{ ollama_api_model }}",
+          "stream": false,
+          "messages": [
+            {
+              "role": "user",
+              "content": "{{ llm_prompt }}"
+            }
+          ],
+          "temperature": 0.1
+        }
+        status_code: 200
+        return_content: true
+        timeout: 60
+      register: llm_api_response
+
+    - name: Print the llm_api_response
+      ansible.builtin.debug:
+        var: llm_api_response
