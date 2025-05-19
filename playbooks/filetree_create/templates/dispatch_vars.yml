@@ -1,0 +1,42 @@
+---
+controller_projects:
+  - name: Ansible Project
+    organization: Default
+    scm_branch: development
+    scm_clean: 'no'
+    scm_delete_on_update: 'no'
+    scm_type: git
+    scm_update_on_launch: 'no'
+    scm_url: https://github.com/r3dact3d/AnsibleProject.git
+
+controller_templates:
+################################
+##  Ansible Resources Export  ##
+################################
+  - name: Filetree Create
+    organization: Default
+    project: Blinker Project
+    inventory: Insights Inventory
+    playbook: playbooks/filetree_create/filetree_create.yml
+    scm_branch: ""
+    forks: 0
+    limit: ""
+    verbosity: 0
+    job_type: "run"
+    job_slice_count: 1
+    use_fact_cache: false
+    credentials: []
+
+  - name: "Filetree Artifact"
+    organization: "Default"
+    project: "Blinker Project"
+    inventory: "Insights Inventory"
+    playbook: "playbooks/filetree_create/filetree_artifact.yml"
+    scm_branch: ""
+    forks: 0
+    limit: "platform"
+    verbosity: 0
+    job_type: "run"
+    job_slice_count: 1
+    use_fact_cache: false
+    credentials: []

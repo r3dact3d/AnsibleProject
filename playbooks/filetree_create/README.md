@@ -14,4 +14,7 @@ Then, sync the **community** repository for that remote config and double check 
 
 If you have a config as code workflow in place, then you can use this varaible files to automate the AAP resource creation, like credentials, project, and templates.
 
-[place-holder for cac templates]()
+- [Variables for the dispatch or import roles](templates/dispatch_vars.yml)
+
+> NOTE: You will need to update the **Job Templates** with your **AAP Admin** and **Machine Credentials**
+
