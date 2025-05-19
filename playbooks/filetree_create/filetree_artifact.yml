@@ -10,7 +10,24 @@
       ansible.builtin.debug:
         var: processed_file_data
 
-    - name: Copy artifact to locally to platform
+    - name: Check if file /tmp/filetree_output_stat.yml exists
+      register: file_data
+      ansible.builtin.stat:
+        path: /tmp/filetree_output_stat.yml
+
+    - name: Set stat from registered file_data
+      when: file_data.stat.exists
+      ansible.builtin.set_fact:
+        filetree_output_orig: "{{ file_data.stat }}"
+
+    - name: Backup the previous artifact
+      when: file_data.stat.exists
+      ansible.builtin.copy:
+        src: /tmp/filetree_output_stat.yml
+        dest: /tmp/filetree_output_stat.yml.bak
+
+    - name: Copy artifact locally to platform
       ansible.builtin.copy:
         content: "{{ filetree_output_stat }}"
         dest: /tmp/filetree_output_stat.yml
+
