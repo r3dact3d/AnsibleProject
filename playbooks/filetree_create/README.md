@@ -1,6 +1,7 @@
 # Export Automation Controller Resources
 
-- **filetree-create.yml** - Playbookes uses role from Red Hat Communities of Practice [aap_configuration_extended](https://github.com/redhat-cop/aap_configuration_extended/tree/devel/roles/filetree_create) collection
+- **filetree_create.yml** - Playbookes uses role from Red Hat Communities of Practice [aap_configuration_extended](https://github.com/redhat-cop/aap_configuration_extended/tree/devel/roles/filetree_create) collection
+- **filetree_artifact.yml** - Reads stats from filetree_create.yml and exports to the local filesystem for processing/manipulation
 
 Ensure the following collections are listed in your Galaxy remote requirements:
 - **infra.aap_configuration**
@@ -17,4 +18,6 @@ If you have a config as code workflow in place, then you can use this varaible f
 - [Variables for the dispatch or import roles](vars/dispatch_vars.yml)
 
 > NOTE: You will need to update the **Job Templates** with your **AAP Admin** and **Machine Credentials**
+
+> NOTE: Add an **Inventory** to the **Job Templates** that includes your Controller localhost.
 

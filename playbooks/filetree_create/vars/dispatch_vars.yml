@@ -15,9 +15,6 @@ controller_projects:
     scm_url: https://github.com/r3dact3d/AnsibleProject.git
 
 controller_templates:
-################################
-##  Ansible Resources Export  ##
-################################
   - name: Filetree Create
     organization: Default
     project: Ansible Project
@@ -45,3 +42,33 @@ controller_templates:
     job_slice_count: 1
     use_fact_cache: false
     credentials: []
+
+controller_workflows:
+  - name: "Filetree Workflow (WT)"
+    description: !unsafe ''
+    organization: "Default"
+    simplified_workflow_nodes:
+      - identifier: "Filetree Create"
+        workflow_job_template: "Filetree Workflow (WT)"
+        unified_job_template: "Filetree Create"
+        limit: ""
+        organization: "Default"
+        all_parents_must_converge: "False"
+        success_nodes:
+          - "Filetree Artifact"
+      - identifier: "Filetree Artifact"
+        workflow_job_template: "Filetree Workflow (WT)"
+        unified_job_template: "Filetree Artifact"
+        limit: ""
+        organization: "Default"
+        all_parents_must_converge: "False"
+    ask_variables_on_launch: "False"
+    allow_simultaneous: "False"
+    scm_branch: ""
+    limit: ""
+    ask_limit_on_launch: false
+    ask_inventory_on_launch: false
+    webhook_service: ""
+    extra_vars: ""
+    labels: ""
+    survey_enabled: false
