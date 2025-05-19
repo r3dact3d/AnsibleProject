@@ -45,3 +45,6 @@ Yours will reflect differently, because you will have different resources define
 
 ## Art of the Possible
 
+### Configuration Drift Protection
+
+### Configuration as Code Enforcement
