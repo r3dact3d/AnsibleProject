@@ -1,0 +1,17 @@
+---
+- name: This is a play within a playbook
+  hosts: planetexpress
+  tasks:
+    - name: Install webserver
+      ansible.builtin.package:
+        name: apache2
+        state: present
+    - name: Open firewall port
+      ansible.posix.firewalld:
+        port: 80/tcp
+        permanent: true
+        state: enabled
+    - name: Setup web page
+      ansible.builtin.copy:
+        content: <h1>Hello world from Ansible</h1>
+        dest: /var/www/html/index.html
