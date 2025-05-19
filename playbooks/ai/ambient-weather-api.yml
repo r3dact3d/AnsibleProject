@@ -29,9 +29,7 @@
           ```
 
           Please perform the following tasks:
-          1. Review the information provided along
-          2. Review any context that you need
-          3. As an amateur radio operator give the accurate weather report.
+          1. Give an accurate report that summarizes the information
 
     - name: Display the prepared prompt (for debugging)
       ansible.builtin.debug:
