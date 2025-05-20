@@ -21,11 +21,15 @@
       ansible.builtin.slurp:
         src: /tmp/filetree_output_stat.yml
 
-    - name: Set stat
+    - name: Remove unsafe tag
+      ansible.builtin.set_fact:
+        yaml_data: "{{ slurp_file_data.content | b64decode }}"
+
+    - name: Set artifact from fact
       when: file_data.stat.exists
       ansible.builtin.set_stats:
-        data:
-          filetree_output_orig: "{{ slurp_file_data.content | b64decode | from_yaml_all }}"
+        data: 
+          filetree_output_orig: "{{ yaml_data }}"
 
     - name: Backup the previous artifact
       when: file_data.stat.exists
