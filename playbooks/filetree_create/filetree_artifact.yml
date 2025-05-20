@@ -25,7 +25,7 @@
       when: file_data.stat.exists
       ansible.builtin.set_stats:
         data:
-          filetree_output_orig: "{{ slurp_file_data.content | b64decode | from_yaml }}"
+          filetree_output_orig: "{{ slurp_file_data.content | b64decode | from_yaml_all }}"
 
     - name: Backup the previous artifact
       when: file_data.stat.exists
