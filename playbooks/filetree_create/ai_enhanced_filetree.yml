@@ -22,7 +22,7 @@
 
     - name: Print diff result
       ansible.builtin.debug:
-        msg: "{{ diff_result.stdout }}"
+        msg: "{{ diff_result }}"
 
     - name: Prepare the prompt for the LLM
       ansible.builtin.set_fact:
@@ -42,7 +42,7 @@
 
           Differences in configuraion
           ```yaml
-          {{ diff_result.stdout }}
+          {{ diff_result }}
           ```
 
           Please perform the following tasks:
