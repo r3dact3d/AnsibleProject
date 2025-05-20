@@ -15,14 +15,16 @@
       ansible.builtin.stat:
         path: /tmp/filetree_output_stat.yml
 
-    - name: Set stat from registered file_data
+    - name: Set stat
       when: file_data.stat.exists
-      ansible.builtin.set_fact:
-        filetree_output_orig: "{{ lookup('file', '/tmp/filetree_output_stat.yml') }}"
+      ansible.builtin.set_stats:
+        data:
+          filetree_output_orig: "{{ lookup('file', '/tmp/filetree_output_stat.yml') }}"
 
     - name: Backup the previous artifact
       when: file_data.stat.exists
       ansible.builtin.copy:
+        remote_src: true
         src: /tmp/filetree_output_stat.yml
         dest: /tmp/filetree_output_stat.yml.bak
 
