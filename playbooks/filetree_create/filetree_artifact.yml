@@ -17,6 +17,7 @@
 
     - name: Set stat
       when: file_data.stat.exists
+      delegate_to: localhost
       ansible.builtin.set_stats:
         data:
           filetree_output_orig: "{{ lookup('file', '/tmp/filetree_output_stat.yml') }}"
