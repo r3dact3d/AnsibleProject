@@ -18,5 +18,5 @@
         - debug:
             msg: "Internal service {{ event.url_check.url }} is {{ check_status }}."
         - run_workflow_template:
-            name: "URL Check Remediation"
+            name: "URL Check Remediation WT"
             organization: "Blinker19"
