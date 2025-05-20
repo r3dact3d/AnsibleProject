@@ -15,12 +15,17 @@
       ansible.builtin.stat:
         path: /tmp/filetree_output_stat.yml
 
+    - name: Slurp file from target host
+      when: file_data.stat.exists
+      register: slurp_file_data
+      ansible.builtin.slurp:
+        src: /tmp/filetree_output_stat.yml
+
     - name: Set stat
       when: file_data.stat.exists
-      delegate_to: localhost
       ansible.builtin.set_stats:
         data:
-          filetree_output_orig: "{{ lookup('file', '/tmp/filetree_output_stat.yml') }}"
+          filetree_output_orig: "{{ slurp_file_data.conent | b64decode | from_yaml }}"
 
     - name: Backup the previous artifact
       when: file_data.stat.exists
