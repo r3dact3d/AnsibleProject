@@ -54,8 +54,32 @@
     - name: Display the prepared prompt (for debugging)
       ansible.builtin.debug:
         var: llm_prompt
-      when: true
+
+    - name: Call LLM API and Register Response
+      register: llm_api_response
+      ansible.builtin.uri:
+        url: "{{ ollama_api_url }}/api/chat"
+        method: POST
+        headers:
+          accept: "application/json"
+          Content-Type: "application/json"
+          Authorization: "Bearer {{ ollama_api_token }}"
+        body_format: json
+        body: {
+          "model": "{{ ollama_api_model }}",
+          "stream": false,
+          "messages": [
+            {
+              "role": "user",
+              "content": "{{ llm_prompt }}"
+            }
+          ],
+          "temperature": 0.1
+        }
+        status_code: 200
+        return_content: true
+        timeout: 60
 
     - name: Print api response
       ansible.builtin.debug:
-        msg: "{{ api_response.json }}"
+        var: llm_api_response
