@@ -6,10 +6,12 @@ import sys
 
 INVENTORY_FILE = 'playbooks/development/inventory.csv'
 
+# Create empty dictionary to store inventory data
 def parse_csv(file_path):
     inventory = {}
     hostvars = {}
 
+    # Read the CSV file row by row
     with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
