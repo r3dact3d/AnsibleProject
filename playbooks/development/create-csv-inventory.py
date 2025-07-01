@@ -5,7 +5,7 @@ import json
 import sys
 from collections import defaultdict
 
-INVENTORY_FILE = 'inventory.csv'
+INVENTORY_FILE = 'playbooks/development/inventory.csv'
 
 def parse_csv(file_path):
     inventory = defaultdict(lambda: {"hosts": [], "vars": {}})
