@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
+import os
 import csv
 import json
 import sys
 
-INVENTORY_FILE = 'playbooks/development/inventory.csv'
+INVENTORY_FILE = os.environ.get('INVENTORY_FILE', './inventory.csv')
 
-# Create empty dictionary to store inventory data
 def parse_csv(file_path):
+    """
+    Parse the CSV inventory file into a structured format suitable for Ansible.
+    """
     inventory = {}
     hostvars = {}
 
