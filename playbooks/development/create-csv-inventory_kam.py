@@ -17,6 +17,10 @@ def parse_csv(file_path):
             host = row.get("hostname")
             group = row.get("group", "ungrouped")
 
+            # Validate group name (important!)
+            if not group or group.startswith("_") or group.strip() == "":
+                group = "ungrouped"  # Assign a safe default
+
             inventory[group]["hosts"].append(host)
             hostvars[host] = {k: v for k, v in row.items() if k not in ["hostname", "group"]}
 
