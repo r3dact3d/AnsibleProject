@@ -10,7 +10,7 @@ Together we will review and prep the script:
 
 ## Steps:
 
-1.** Upload the Script and CSV to Source Control:** Place both your modified Python script (e.g., create_csv_inventory_bt.py) and your inventory.csv file into a Source Control Management (SCM) repository (like Git) that your AAP project can access.
+1. **Upload the Script and CSV to Source Control:** Place both your modified Python script (e.g., create_csv_inventory_bt.py) and your inventory.csv file into a Source Control Management (SCM) repository (like Git) that your AAP project can access.
 2. **Ensure Executable Permissions:** Make sure your create_csv_inventory_bt.py script has executable permissions (chmod +x) in your SCM repository. Otherwise, the Automation Controller will report a "Permission denied" error during execution.
 3. **Create an Inventory in AAP:** Navigate to "Automation Execution" -> "Infrastructure" -> "Inventories" in the Automation Controller UI and create a new Inventory.
 4. **Add an Inventory Source:** Within your newly created Inventory, go to the "Sources" tab and click "Create source".
