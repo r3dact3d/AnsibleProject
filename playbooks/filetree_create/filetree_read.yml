@@ -9,7 +9,7 @@
     aap_hostname: "{{ (lookup('env', 'CONTROLLER_HOST')) }}"
     aap_validate_certs: "{{ (lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) }}"
     controller_validate_certs: false
-    controller_oauthtoken: "{{ (lookup('env', 'CONTROLLER_OAUTH_TOKEN')) }}"
+    aap_oauthtoken: "{{ (lookup('env', 'CONTROLLER_OAUTH_TOKEN')) }}"
     flatten_output: True
 
   pre_tasks:
