@@ -10,33 +10,33 @@
       ansible.builtin.debug:
         var: processed_file_data
 
-    - name: Check if file /tmp/filetree_output_stat.yml exists
-      register: file_data
-      ansible.builtin.stat:
-        path: /tmp/filetree_output_stat.yml
+#    - name: Check if file /tmp/filetree_output_stat.yml exists
+#      register: file_data
+#      ansible.builtin.stat:
+#        path: /tmp/filetree_output_stat.yml
 
-    - name: Slurp file from target host
-      when: file_data.stat.exists
-      register: slurp_file_data
-      ansible.builtin.slurp:
-        src: /tmp/filetree_output_stat.yml
+#    - name: Slurp file from target host
+#      when: file_data.stat.exists
+#      register: slurp_file_data
+#      ansible.builtin.slurp:
+#        src: /tmp/filetree_output_stat.yml
 
-    - name: Remove unsafe tag
-      ansible.builtin.set_fact:
-        yaml_data: "{{ slurp_file_data.content | b64decode }}"
+#    - name: Remove unsafe tag
+#      ansible.builtin.set_fact:
+#        yaml_data: "{{ slurp_file_data.content | b64decode }}"
 
-    - name: Set artifact from fact
-      when: file_data.stat.exists
-      ansible.builtin.set_stats:
-        data: 
-          filetree_output_orig: "{{ yaml_data }}"
+#    - name: Set artifact from fact
+#      when: file_data.stat.exists
+#      ansible.builtin.set_stats:
+#        data: 
+#          filetree_output_orig: "{{ yaml_data }}"
 
-    - name: Backup the previous artifact
-      when: file_data.stat.exists
-      ansible.builtin.copy:
-        remote_src: true
-        src: /tmp/filetree_output_stat.yml
-        dest: /tmp/filetree_output_stat.yml.bak
+#    - name: Backup the previous artifact
+#      when: file_data.stat.exists
+#      ansible.builtin.copy:
+#        remote_src: true
+#        src: /tmp/filetree_output_stat.yml
+#        dest: /tmp/filetree_output_stat.yml.bak
 
     - name: Copy artifact locally to platform
       ansible.builtin.copy:

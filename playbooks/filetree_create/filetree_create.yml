@@ -1,6 +1,7 @@
 ---
 - name: Playbook to authenticate to one platform and export the resources
   hosts: localhost
+  gather_facts: false
   ignore_errors: true
   vars:
     aap_username: "{{ (lookup('env', 'CONTROLLER_USERNAME')) }}"
