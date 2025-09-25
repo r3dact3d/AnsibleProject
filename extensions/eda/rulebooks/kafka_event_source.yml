@@ -4,9 +4,9 @@
   sources:
     - ansible.eda.kafka:
         name: Kafka Event Source
-        host: 192.168.1.177
-        port: 9092
-        topic: homeassistant1
+        host: home-assistant.hole
+        port: 1883
+        topic: meshtastic/pynode/#
 
   rules:
     - name: kafka
