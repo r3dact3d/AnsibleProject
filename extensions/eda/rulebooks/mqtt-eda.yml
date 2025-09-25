@@ -1,0 +1,15 @@
+---
+- name: MQTT
+  hosts: localhost
+  sources:
+    - ansible.eda.mqtt:
+        host: home-assistant.hole # or MQTT broker IP/hostnam
+        port: 1883
+        topic: /meshtastic/pynode/#
+  rules:
+    - name: MQTT
+      condition: event.payload is defined
+      action:
+        print_events:
+          msg: "{{ event.payload }}"
+          pretty: true
